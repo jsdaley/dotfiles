@@ -1,0 +1,36 @@
+# Brewfile.work — work machine additions (layered on top of Brewfile.core)
+# Installed via: brew bundle --file brew/Brewfile.work
+# Covers AWS + Infrastructure-as-Code. (Kubernetes intentionally omitted.)
+
+###############################################################################
+# Taps
+###############################################################################
+tap 'common-fate/granted'
+
+###############################################################################
+# AWS
+###############################################################################
+brew 'awscli'                       # aws CLI v2
+brew 'granted'                      # fast multi-account AWS access (assume)
+brew 'aws-sso-util'                 # smooth out AWS SSO login/config
+brew 'chamber'                      # secrets via SSM Parameter Store
+brew 'awslogs'                      # tail CloudWatch logs
+cask 'session-manager-plugin'      # SSM session support for aws CLI
+
+###############################################################################
+# Infrastructure as Code
+###############################################################################
+brew 'opentofu'                    # Terraform-compatible IaC (tofu)
+brew 'terragrunt'                  # DRY wrapper + state locking for tofu
+brew 'ansible'                     # configuration management
+
+###############################################################################
+# VPN
+###############################################################################
+cask 'tunnelblick'                 # OpenVPN client
+
+###############################################################################
+# Container image tooling (deeper than core; useful for CI/registries at work)
+###############################################################################
+brew 'skopeo'                      # work with remote image registries
+brew 'crane'                       # interact with images/registries

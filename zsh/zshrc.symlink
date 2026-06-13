@@ -1,67 +1,54 @@
-export ZSH=$HOME/.oh-my-zsh
+# ~/.zshrc  (symlink → dotfiles/zsh/zshrc.symlink)
+# Modular config. Orchestrator only — real settings live in zsh/*.zsh modules.
 
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-export ZSH_THEME="agnoster"
-export EDITOR="/opt/local/bin/vim"
-export DEFAULT_USER="shanejonas"
+# ── Powerlevel10k instant prompt (must stay near the very top) ───────────────
+# Initialization code that may require console input (passwords, [y/n], etc.)
+# must go ABOVE this block; everything else below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
 
-setopt APPEND_HISTORY
-setopt EXTENDED_HISTORY
-setopt INC_APPEND_HISTORY
-setopt HIST_FIND_NO_DUPS
-setopt HIST_IGNORE_ALL_DUPS
-setopt HIST_IGNORE_SPACE
-setopt NO_HIST_BEEP
-setopt SHARE_HISTORY
+# ── Resolve repo dir (this file is symlinked into ~; :A resolves the link) ────
+export DOTFILES="${${(%):-%x}:A:h:h}"
 
-#search backwards and forwards with a pattern
-bindkey -M vicmd '/' history-incremental-pattern-search-backward
-bindkey -M vicmd '?' history-incremental-pattern-search-forward
+# ── PATH (before oh-my-zsh) ──────────────────────────────────────────────────
+source "$DOTFILES/zsh/path.zsh"
 
-# set up for insert mode too
-bindkey -M viins '^R' history-incremental-pattern-search-backward
-bindkey -M viins '^F' history-incremental-pattern-search-forward
+# ── History options ──────────────────────────────────────────────────────────
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=100000
+SAVEHIST=100000
+setopt APPEND_HISTORY EXTENDED_HISTORY INC_APPEND_HISTORY \
+       HIST_FIND_NO_DUPS HIST_IGNORE_ALL_DUPS HIST_IGNORE_SPACE \
+       NO_HIST_BEEP SHARE_HISTORY
 
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(brew npm osx git vi-mode zsh-syntax-highlighting)
+# ── oh-my-zsh ────────────────────────────────────────────────────────────────
+export ZSH="$HOME/.oh-my-zsh"
+ZSH_THEME="powerlevel10k/powerlevel10k"
+zstyle ':omz:update' mode disabled
+# zsh-syntax-highlighting MUST be last in this list.
+plugins=(
+  git
+  brew
+  macos
+  npm
+  docker
+  docker-compose
+  fzf
+  direnv
+  zsh-autosuggestions
+  zsh-syntax-highlighting
+)
+source "$ZSH/oh-my-zsh.sh"
 
-source $ZSH/oh-my-zsh.sh
+# ── Modules ──────────────────────────────────────────────────────────────────
+source "$DOTFILES/zsh/aliases.zsh"
+source "$DOTFILES/zsh/tools.zsh"
+source "$DOTFILES/zsh/functions.zsh"
+source "$DOTFILES/zsh/profile.zsh"
 
-# Customize to your needs...
-export PATH=/opt/local/bin:$PATH
-export PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin
-export PATH=~/bin:$PATH
-export PATH=/usr/local/Cellar/ruby/1.9.3-p327/bin:$PATH
-export PATH=/usr/local/Cellar/git/1.8.1/bin:$PATH
-export PATH=/usr/local/Cellar:$PATH
-export TERM=screen-256color
+# ── Powerlevel10k prompt config ──────────────────────────────────────────────
+[[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
 
-#tmux colors
-alias tmux="TERM=xterm-256color tmux"
-
-
-
-# useful commands
-alias chrome='open -a "Google Chrome"'
-alias npmi="npm install -g"
-alias pbc='pwd | pbcopy'
-alias rnpm='rm -rf node_modules && npm install'
-alias viminstall='vim +BundleInstall +qall'
-alias vimclean='vim +BundleClean +qall'
-alias gdiff='git diff | vim -'
-
-# directory aliases
-export CODE="~/Code/polar-mobile"
-alias vim=/opt/local/bin/vim
-alias ap=$CODE/perf
-alias app=$CODE/perf
-alias sdk=$CODE/MediaEverywhere-SDK
-alias cli=$CODE/MediaEverywhere-CLI
-alias ks=$CODE/kitchensink
-
-# work specific
-alias debug="me build --debug --serve --watch --discoverable"
+# ── Local, uncommitted overrides (secrets, machine-specific) ─────────────────
+[[ -f ~/.localrc ]] && source ~/.localrc
