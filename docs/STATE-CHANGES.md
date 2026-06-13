@@ -133,7 +133,49 @@ change** without reverting everything else.
 
 ---
 
-## Still pending
+### C14 — Commit & push ✅
+- Branch **`modernized-2026`** (off master) committed (21 files) and pushed.
+- Cleaned up: 9 junk files (`<cask>; brew install …`) from a mangled terminal
+  paste were accidentally committed by `git add .`, then removed via `git rm` +
+  `git commit --amend` before push.
+- **Remote switched HTTPS → SSH** (`git@github.com:jsdaley/dotfiles.git`) — push
+  over HTTPS password is no longer supported; SSH key already authenticates.
+- `master` is untouched. Merge/PR when ready.
+- **Undo:** `git checkout master` (branch isolated). Per-change reverts above.
+
+---
+
+## Session 2026-06-13 — Phase 1: prune & integrate (branch `modernized-2026`)
+
+### P1-A — Remove dead topics ✅
+- `git rm -r ack emacs vim` (superseded by VSCode/micro + ripgrep; none were
+  symlinked into `$HOME`). **Undo:** `git revert <commit>` or restore from history.
+
+### P1-B — .gitignore + .DS_Store ✅
+- Fixed wrong-case `**/*.DS_STORE` → `.DS_Store` / `**/.DS_Store` (the bug that
+  let `.DS_Store` get tracked). Untracked `.DS_Store`, removed dead emacs/vim
+  rules, un-ignored `git/gitconfig.symlink`. **Undo:** `git revert <commit>`.
+
+### P1-C — Version-control git config ✅
+- Committed `git/gitconfig.symlink` (delta/aliases) — Phase 2 wrote it but
+  .gitignore was hiding it, so it had never been committed. **Undo:** re-add the
+  ignore line + `git rm --cached`.
+
+### P1-D — Integrate stray home-dir dotfiles ✅
+- Moved into repo + symlinked back: `~/.p10k.zsh` → `zsh/p10k.zsh.symlink`,
+  `~/.zprofile` → `zsh/zprofile.symlink`, `~/.config/micro/bindings.json` →
+  `config/micro/bindings.json`.
+- **Skipped:** empty `micro/settings.json` (Phase 3), bash-only `.bashrc`, stale
+  `~/.Brewfile` (superseded by `brew/Brewfile.*`), stale `~/.fzf.{zsh,bash}` (no
+  longer sourced — `fzf --zsh` used instead). Secrets untouched (.ssh/.aws/.netrc/
+  .gnupg/.config/{op,gh}/.docker).
+- **Undo:** `mv` each file back out of the repo and remove the symlink.
+
+## Still pending (flagged for your decision)
+- Legacy `Rakefile` + `git/gitconfig.template` are superseded by `bootstrap.sh` —
+  remove? (not done unprompted)
+- Stale `~/.Brewfile`, `~/.fzf.{zsh,bash}`, `~/.config/mc` can be deleted to declutter.
+- Phase 3 (power-user settings) & Phase 4 (Linux server profile) — not started.
 - C8 — install/adopt GUI casks (handed to you; sudo).
 - Optional: set Homebrew zsh as login shell; delete dormant `~/.nodenv`.
 - Phase 1 (later): prune dead `vim/`, `emacs/`, `ack/` topics; integrate stray

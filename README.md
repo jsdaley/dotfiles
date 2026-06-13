@@ -49,13 +49,15 @@ brew/
   install.sh              brew bundle wrapper (core + active profile)
 zsh/
   zshrc.symlink           orchestrator (→ ~/.zshrc)
+  zprofile.symlink        login-shell init: brew shellenv + OrbStack (→ ~/.zprofile)
   path.zsh                PATH / Homebrew shellenv
   aliases.zsh             modern-CLI aliases (ls→eza, cat→bat, …)
   tools.zsh               fzf / zoxide / atuin / direnv / mise init
   functions.zsh           shell functions (llm-start, extract, mkcd…)
   profile.zsh             loads profile.{home,work}.zsh
+  p10k.zsh.symlink        Powerlevel10k prompt config (→ ~/.p10k.zsh)
 git/gitconfig.symlink     delta pager, aliases, sane defaults
-config/                   XDG configs → ~/.config (atuin, mise, …)
+config/                   XDG configs → ~/.config (atuin, mise, micro, …)
 bin/                      helper scripts (added to PATH)
 osx/set-defaults.sh       optional macOS defaults
 docs/
