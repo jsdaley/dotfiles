@@ -58,6 +58,8 @@ zsh/
   p10k.zsh.symlink        Powerlevel10k prompt config (→ ~/.p10k.zsh)
 git/gitconfig.symlink     delta pager, aliases, sane defaults
 config/                   XDG configs → ~/.config (atuin, mise, micro, …)
+claude/settings.json      Claude Code settings → ~/.claude/settings.json
+vscode/                   VS Code settings, keybindings, extensions.txt
 bin/                      helper scripts (added to PATH)
 osx/set-defaults.sh       optional macOS defaults
 docs/

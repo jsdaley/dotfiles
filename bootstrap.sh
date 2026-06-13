@@ -103,6 +103,25 @@ else
   echo "  ~/.gitconfig.local exists — leaving it."
 fi
 
+# ── 6c. Editor configs (Claude Code + VS Code) ───────────────────────────────
+step "Editor configs"
+# Claude Code (settings only; account/history stay local)
+[[ -f "$DOTFILES/claude/settings.json" ]] && link "$DOTFILES/claude/settings.json" "$HOME/.claude/settings.json"
+# VS Code (macOS path; Linux desktop uses ~/.config/Code/User)
+if [[ "$(uname)" == Darwin ]]; then
+  VSC="$HOME/Library/Application Support/Code/User"
+elif [[ -d "$HOME/.config/Code/User" ]]; then
+  VSC="$HOME/.config/Code/User"
+fi
+if [[ -n "${VSC:-}" ]]; then
+  [[ -f "$DOTFILES/vscode/settings.json" ]]    && link "$DOTFILES/vscode/settings.json"    "$VSC/settings.json"
+  [[ -f "$DOTFILES/vscode/keybindings.json" ]] && link "$DOTFILES/vscode/keybindings.json" "$VSC/keybindings.json"
+  if command -v code >/dev/null 2>&1 && [[ -f "$DOTFILES/vscode/extensions.txt" ]]; then
+    echo "  installing VS Code extensions..."
+    xargs -n1 code --install-extension < "$DOTFILES/vscode/extensions.txt" >/dev/null 2>&1 || true
+  fi
+fi
+
 # ── 7. Runtimes via mise ─────────────────────────────────────────────────────
 step "mise runtimes"
 if command -v mise >/dev/null 2>&1; then

@@ -1,0 +1,13 @@
+{
+  "extraKnownMarketplaces": {
+    "unifi-plugins": {
+      "source": {
+        "source": "github",
+        "repo": "sirkirby/unifi-mcp"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "unifi-network@unifi-plugins": true
+  }
+}

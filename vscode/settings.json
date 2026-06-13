@@ -1,0 +1,39 @@
+{
+  "workbench.colorTheme": "Monokai",
+  "atomKeymap.promptV3Features": true,
+  "editor.multiCursorModifier": "ctrlCmd",
+  "editor.formatOnPaste": false,
+  "editor.tabSize": 2,
+  "projectManager.vscode.baseFolders": [
+    "$home/workspace/battlefy"
+  ],
+  "projectManager.git.baseFolders": [
+    "$home/workspace/battlefy"
+  ],
+  "projectManager.openInNewWindowWhenClickingInStatusBar": true,
+  "window.newWindowDimensions": "maximized",
+  "workbench.startupEditor": "none",
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/coverage": true,
+    "**/node_modules": true
+  },
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "html.validate.styles": false,
+  "html.validate.scripts": false,
+  "window.zoomLevel": -1,
+  "workbench.activityBar.location": "hidden",
+  "pascal.formatter.engine": "ptop",
+  "pascal.formatter.enginePath": "/usr/local/bin/ptop",
+  "terminal.integrated.fontFamily": "MesloLGS NF",
+  "terminal.integrated.scrollback": 10000,
+  "terminal.integrated.defaultProfile.osx": "zsh",
+  "workbench.secondarySideBar.defaultVisibility": "hidden",
+  "editor.unicodeHighlight.nonBasicASCII": false,
+  "claudeCode.preferredLocation": "panel"
+}

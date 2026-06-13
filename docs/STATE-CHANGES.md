@@ -193,7 +193,25 @@ change** without reverting everything else.
   identity templating the Rakefile used to do).
 - **Undo:** `git revert <commit>`.
 
+### P1-G — Integrate Claude Code + VS Code configs ✅
+- **Claude:** `claude/settings.json` ← `~/.claude/settings.json` (unifi plugin/
+  marketplace config; no secrets), symlinked back. **Excluded** `~/.claude.json`
+  (account/MCP/project history — machine-specific) and all runtime dirs.
+- **VS Code:** `vscode/{settings.json,keybindings.json,extensions.txt}`,
+  symlinked into `~/Library/Application Support/Code/User/`. Scrubbed before
+  commit: removed stale `sync.*` keys (2017 Settings-Sync cruft incl. a gist id);
+  de-hardcoded `/Users/jsdaley/workspace/battlefy` → `$home/workspace/battlefy`.
+  33 extensions captured; bootstrap installs them via `code --install-extension`.
+- `bootstrap.sh` extended with an "Editor configs" step (mac + Linux-desktop VS
+  Code paths). Secret scan of all four files: clean.
+- **Undo:** `mv` each file back, remove symlink (originals backed up in `backups/`).
+- ⚠️ VS Code/Claude rewrite these files when you change settings in-app — that's
+  fine (changes show as repo diffs); if an app ever replaces the symlink with a
+  real file, re-run `bootstrap.sh` to relink.
+
 ## Still pending (flagged for your decision)
+- `vscode/settings.json` still names your employer folder (`battlefy`) — fine if
+  the repo stays private; tell me to generalize it if it'll be public.
 - Stale `~/.Brewfile`, `~/.fzf.{zsh,bash}`, `~/.config/mc` can be deleted to declutter.
 - 4 Phase 1 commits + these are local — **not pushed** (you chose Hold).
 - Phase 3 (power-user settings) & Phase 4 (Linux server profile) — not started.
