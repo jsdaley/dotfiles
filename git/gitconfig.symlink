@@ -1,0 +1,61 @@
+[user]
+	email = jsdaley@users.noreply.github.com
+	name = Jared Daley
+
+[core]
+	pager = delta
+	editor = micro
+
+[interactive]
+	diffFilter = delta --color-only
+
+[delta]
+	navigate = true        # n / N to move between diff sections
+	line-numbers = true
+	syntax-theme = ansi
+	hyperlinks = true
+
+[diff]
+	colorMoved = default
+	algorithm = histogram
+
+[merge]
+	conflictstyle = zdiff3
+
+[push]
+	default = current
+	autoSetupRemote = true
+
+[pull]
+	rebase = true
+
+[fetch]
+	prune = true
+
+[rebase]
+	autosquash = true
+	autostash = true
+
+[init]
+	defaultBranch = main
+
+[branch]
+	sort = -committerdate
+
+[column]
+	ui = auto
+
+[alias]
+	st = status -sb
+	co = checkout
+	sw = switch
+	br = branch
+	ci = commit
+	cm = commit -m
+	amend = commit --amend --no-edit
+	last = log -1 HEAD
+	lg = log --graph --oneline --decorate --all
+	unstage = reset HEAD --
+	undo = reset --soft HEAD~1
+	# structural (difftastic) diff on demand:
+	dft = -c diff.external=difft diff
