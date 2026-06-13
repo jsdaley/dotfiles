@@ -36,6 +36,8 @@ brew 'htop'             # kept — familiar fallback
 brew 'tealdeer'         # tldr: example-first man pages (binary: tldr)
 brew 'hyperfine'        # CLI benchmarking
 brew 'tokei'            # count lines of code, fast
+brew 'ncdu'             # interactive disk-usage TUI (promoted from server profile)
+brew 'fastfetch'        # system info on demand (promoted from server profile)
 
 ###############################################################################
 # Shell & terminal experience

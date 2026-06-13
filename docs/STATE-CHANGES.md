@@ -228,8 +228,32 @@ change** without reverting everything else.
   configs, iTerm2 prefs sync. `~/.config/htop/htoprc` available on request
   (skipped — htop rewrites it on quit, and btop is primary).
 
+---
+
+## Session 2026-06-13 — Phase 4: Linux server profile (branch `modernized-2026`)
+
+### P4-A — Recon scaffold ✅ (earlier)
+- `server/recon.sh` + `server/README.md`. Ran on Cerebro (Proxmox/Debian 13),
+  Colossus (Ubuntu 24.04), Vulcan (Debian 13).
+
+### P4-B — Build the shared server profile ✅
+- Synthesized the 3 recon reports. All target tools are apt-installable on all
+  three; Debian renames bat→batcat, fd→fdfind. Shell divergence: Cerebro/Colossus
+  zsh+oh-my-zsh (Colossus also p10k+plugins), Vulcan bash-only.
+- **Added:** `server/packages.apt` (modern CLI + general + admin/diagnostics),
+  `server/shell.sh` (portable bash+zsh QoL; conservative aliasing; bat/fd shims;
+  zoxide/fzf; docker+systemd+journal admin aliases; fastfetch on login),
+  `server/setup.sh` (apt install skipping unavailable, shims, wires shell.sh into
+  ~/.bashrc and ~/.zshrc — does NOT force zsh/p10k).
+- **Promoted to macOS core:** `ncdu`, `fastfetch`.
+- **Undo:** `rm -rf server/`; revert the Brewfile.core edit.
+
 ## Still pending (flagged for your decision)
+- Run `server/setup.sh` on each box (commands provided in chat).
+- TODO: `~/.ssh/config` template (`Include ~/.ssh/config.local`) so host/IP
+  details stay local — natural fit for this phase; confirm to proceed.
 - Stale `~/.Brewfile`, `~/.fzf.{zsh,bash}`, `~/.config/mc` can be deleted to declutter.
+- Phase 3 (power-user settings) — not started.
 - 4 Phase 1 commits + these are local — **not pushed** (you chose Hold).
 - Phase 3 (power-user settings) & Phase 4 (Linux server profile) — not started.
 - C8 — install/adopt GUI casks (handed to you; sudo).

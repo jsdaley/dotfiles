@@ -18,17 +18,31 @@ development.
 - Lightweight: a curated set of power-user + general + server-admin tools, since
   little time is spent interactively on each box.
 
-## Layout (filled in after recon)
+## Layout
 ```
 server/
   recon.sh        read-only audit script (run on each box; produces <host>-recon.txt)
-  packages.apt    shared apt packages (the common, agreed set)        [TODO]
-  setup.sh        apt install + dotfile linking + shell QoL            [TODO]
-  shell.sh        portable shell config (aliases/prompt) sourced by ~/.bashrc/.zshrc  [TODO]
+  packages.apt    shared apt packages (modern CLI + general + admin/diagnostics)
+  shell.sh        portable QoL config — sourced from ~/.bashrc AND ~/.zshrc
+  setup.sh        apt install (skips unavailable) + bat/fd shims + wires shell.sh
 ```
 
-## Workflow
-1. Run `recon.sh` on each server; send back the `<host>-recon.txt` files.
-2. We diff them, agree on the shared toolset, and promote any broadly-useful
-   tools into the macOS core profile too.
-3. Build `packages.apt` + `setup.sh` + `shell.sh`; install via a one-liner.
+## Install (per server)
+Copy the `server/` folder to the box and run `setup.sh`:
+```bash
+scp -r ~/workspace/dotfiles/server <host>:/tmp/server
+ssh <host> 'bash /tmp/server/setup.sh'
+```
+Idempotent — re-run any time to update. Vulcan has no passwordless sudo, so it
+prompts for a password.
+
+## Notes
+- Works in **bash and zsh** (Cerebro/Colossus are zsh+oh-my-zsh; Vulcan is bash).
+  It does NOT force-install zsh/oh-my-zsh/p10k — those stay as-is per machine.
+- Debian renames `bat`→`batcat`, `fd`→`fdfind`; `setup.sh` symlinks them back to
+  `bat`/`fd` in `~/.local/bin`.
+- Aliasing is conservative vs macOS (servers are paste-heavy): only ls/cat/top/df
+  are swapped; grep/find/ps stay native.
+- `fastfetch` + `ncdu` (found useful here) were promoted to the macOS core profile.
+- TODO (your call): slot `~/.ssh/config` in via an `Include ~/.ssh/config.local`
+  template so host/IP details stay local & out of git.
