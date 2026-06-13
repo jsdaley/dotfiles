@@ -5,10 +5,10 @@
   "editor.formatOnPaste": false,
   "editor.tabSize": 2,
   "projectManager.vscode.baseFolders": [
-    "$home/workspace/battlefy"
+    "$home/workspace"
   ],
   "projectManager.git.baseFolders": [
-    "$home/workspace/battlefy"
+    "$home/workspace"
   ],
   "projectManager.openInNewWindowWhenClickingInStatusBar": true,
   "window.newWindowDimensions": "maximized",
