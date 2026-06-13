@@ -248,10 +248,28 @@ change** without reverting everything else.
 - **Promoted to macOS core:** `ncdu`, `fastfetch`.
 - **Undo:** `rm -rf server/`; revert the Brewfile.core edit.
 
+### P4-C — Pivot server profile to zsh-identical + SSH config ✅
+- Per feedback ("make environments as identical as possible"; Vulcan's bash was
+  just un-provisioned), the server profile now reuses the **same** Mac zsh config.
+- Made Mac zsh config cross-platform: `path.zsh` adds `~/.local/bin`; `zshrc`
+  oh-my-zsh plugins are OS-aware (`brew`/`macos` only on darwin; fzf/direnv moved
+  to tools.zsh). Verified Mac still loads (profile=home, brew+macos present).
+- Added `zsh/profile.server.zsh` (docker/systemd/journal/proxmox admin aliases +
+  fastfetch on login); `profile.zsh` gains a `server` case.
+- Rewrote `server/setup.sh`: installs apt packages + zsh + oh-my-zsh + p10k +
+  plugins, bat/fd shims, sets profile=server, **symlinks the same dotfiles the
+  Mac uses** (zshrc, p10k, gitconfig, gitexcludes, ssh/config), and `chsh` to zsh.
+  Removed `server/shell.sh` (bash dup no longer needed).
+- **SSH:** added committed `ssh/config` (Cerebro's cipher hardening + keepalive +
+  `Include ~/.ssh/config.local`). Migrated this Mac: existing `~/.ssh/config`
+  (27 lines, hosts) → `~/.ssh/config.local` (backup in `backups/`), symlinked the
+  shared file. Verified `ssh -G cerebro` still resolves host + ciphers. Bootstrap
+  does the same migration on new machines. `*.local` already gitignored.
+- **Undo:** restore `~/.ssh/config` from backup; revert commits.
+
 ## Still pending (flagged for your decision)
-- Run `server/setup.sh` on each box (commands provided in chat).
-- TODO: `~/.ssh/config` template (`Include ~/.ssh/config.local`) so host/IP
-  details stay local — natural fit for this phase; confirm to proceed.
+- Run the (rewritten) `server/setup.sh` on each box — commands in chat (now
+  rsync the whole repo, since servers reuse the Mac zsh modules + p10k).
 - Stale `~/.Brewfile`, `~/.fzf.{zsh,bash}`, `~/.config/mc` can be deleted to declutter.
 - Phase 3 (power-user settings) — not started.
 - 4 Phase 1 commits + these are local — **not pushed** (you chose Hold).

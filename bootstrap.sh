@@ -122,6 +122,17 @@ if [[ -n "${VSC:-}" ]]; then
   fi
 fi
 
+# ── 6d. SSH config (shared options; hosts stay local) ────────────────────────
+step "SSH config"
+mkdir -p "$HOME/.ssh"; chmod 700 "$HOME/.ssh"
+# Preserve any existing real ~/.ssh/config by moving its hosts into config.local
+if [[ -f "$HOME/.ssh/config" && ! -L "$HOME/.ssh/config" && ! -f "$HOME/.ssh/config.local" ]]; then
+  mv "$HOME/.ssh/config" "$HOME/.ssh/config.local"
+  echo "  moved existing ~/.ssh/config -> ~/.ssh/config.local (kept out of git)"
+fi
+[[ -f "$HOME/.ssh/config.local" ]] || { : > "$HOME/.ssh/config.local"; chmod 600 "$HOME/.ssh/config.local"; }
+[[ -f "$DOTFILES/ssh/config" ]] && link "$DOTFILES/ssh/config" "$HOME/.ssh/config" && chmod 600 "$HOME/.ssh/config" 2>/dev/null || true
+
 # ── 7. Runtimes via mise ─────────────────────────────────────────────────────
 step "mise runtimes"
 if command -v mise >/dev/null 2>&1; then

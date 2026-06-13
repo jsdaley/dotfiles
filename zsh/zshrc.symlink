@@ -26,19 +26,12 @@ setopt APPEND_HISTORY EXTENDED_HISTORY INC_APPEND_HISTORY \
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 zstyle ':omz:update' mode disabled
-# zsh-syntax-highlighting MUST be last in this list.
-plugins=(
-  git
-  brew
-  macos
-  npm
-  docker
-  docker-compose
-  fzf
-  direnv
-  zsh-autosuggestions
-  zsh-syntax-highlighting
-)
+# Plugins are OS-aware so the same config works on macOS and Linux servers.
+# (fzf/direnv are initialized in tools.zsh, not via omz, to stay portable.)
+plugins=(git npm docker docker-compose)
+[[ "$OSTYPE" == darwin* ]] && plugins+=(brew macos)
+# zsh-syntax-highlighting MUST stay last.
+plugins+=(zsh-autosuggestions zsh-syntax-highlighting)
 source "$ZSH/oh-my-zsh.sh"
 
 # ── Modules ──────────────────────────────────────────────────────────────────

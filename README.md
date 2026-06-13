@@ -31,6 +31,7 @@ Each machine is `home` or `work`, stored in `~/.config/dotfiles/profile`:
 |---------|---------------------|
 | `home`  | virtualization, retro emulation, media, games, disk tools |
 | `work`  | AWS, OpenTofu/Terragrunt/Ansible, registry tooling, VPN |
+| `server`| headless Linux (apt) — same zsh/p10k config + admin tooling; see `server/` |
 
 Switch a machine's profile:
 
@@ -54,12 +55,15 @@ zsh/
   aliases.zsh             modern-CLI aliases (ls→eza, cat→bat, …)
   tools.zsh               fzf / zoxide / atuin / direnv / mise init
   functions.zsh           shell functions (llm-start, extract, mkcd…)
-  profile.zsh             loads profile.{home,work}.zsh
+  profile.zsh             loads profile.{home,work,server}.zsh
+  profile.server.zsh      headless-Linux admin aliases (docker/systemd/journal)
   p10k.zsh.symlink        Powerlevel10k prompt config (→ ~/.p10k.zsh)
 git/gitconfig.symlink     delta pager, aliases, sane defaults
+ssh/config                shared SSH options → ~/.ssh/config (+ Include config.local)
 config/                   XDG configs → ~/.config (atuin, mise, micro, …)
 claude/settings.json      Claude Code settings → ~/.claude/settings.json
 vscode/                   VS Code settings, keybindings, extensions.txt
+server/                   headless-Linux provisioning (recon.sh, packages.apt, setup.sh)
 bin/                      helper scripts (added to PATH)
 osx/set-defaults.sh       optional macOS defaults
 docs/

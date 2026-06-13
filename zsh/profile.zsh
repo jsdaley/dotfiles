@@ -5,6 +5,7 @@ DOTFILES_PROFILE="$(cat "${XDG_CONFIG_HOME:-$HOME/.config}/dotfiles/profile" 2>/
 export DOTFILES_PROFILE
 
 case "$DOTFILES_PROFILE" in
-  work) [[ -f "$DOTFILES/zsh/profile.work.zsh" ]] && source "$DOTFILES/zsh/profile.work.zsh" ;;
-  *)    [[ -f "$DOTFILES/zsh/profile.home.zsh" ]] && source "$DOTFILES/zsh/profile.home.zsh" ;;
+  work)   [[ -f "$DOTFILES/zsh/profile.work.zsh" ]]   && source "$DOTFILES/zsh/profile.work.zsh" ;;
+  server) [[ -f "$DOTFILES/zsh/profile.server.zsh" ]] && source "$DOTFILES/zsh/profile.server.zsh" ;;
+  *)      [[ -f "$DOTFILES/zsh/profile.home.zsh" ]]   && source "$DOTFILES/zsh/profile.home.zsh" ;;
 esac

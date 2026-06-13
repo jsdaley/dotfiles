@@ -6,7 +6,8 @@ if [[ -x /opt/homebrew/bin/brew ]]; then
 fi
 
 # Personal + repo bins (repo bin/ holds the git-* helper scripts, etc.)
-export PATH="$HOME/bin:${DOTFILES:-$HOME/workspace/dotfiles}/bin:$PATH"
+# ~/.local/bin holds Linux shims (e.g. bat/fd on Debian); harmless on macOS.
+export PATH="$HOME/.local/bin:$HOME/bin:${DOTFILES:-$HOME/workspace/dotfiles}/bin:$PATH"
 
 # Homebrew sbin (some formulae install here)
 [[ -d /opt/homebrew/sbin ]] && export PATH="/opt/homebrew/sbin:$PATH"
