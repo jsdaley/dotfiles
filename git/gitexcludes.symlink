@@ -1,10 +1,16 @@
+# Global git ignore (wired via core.excludesfile = ~/.gitexcludes).
+# OS + personal editor/tool noise ONLY. Project-level ignores (build dirs,
+# node_modules, .idea/, .vscode/) belong in each repo's own .gitignore.
+
+# macOS
 .DS_Store
-.svn
+.AppleDouble
+._*
+
+# Editor swap/backup files
 *~
 *.swp
-*~.nib
-*.pbxuser
-*.perspective
-*.perspectivev3
-*.mode1v3
-*.tm_build_errors
+*.swo
+
+# Claude Code per-directory local settings
+.claude/settings.local.json

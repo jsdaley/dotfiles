@@ -209,9 +209,26 @@ change** without reverting everything else.
   fine (changes show as repo diffs); if an app ever replaces the symlink with a
   real file, re-run `bootstrap.sh` to relink.
 
+### P1-H — Generalize VSCode path + fix global gitignore ✅
+- `vscode/settings.json`: `$home/workspace/battlefy` → `$home/workspace`
+  (battlefy = former employer; this is the home laptop).
+- **Fixed dead global gitignore:** `core.excludesfile` was unset, so git used
+  `~/.config/git/ignore` and the repo's `~/.gitexcludes` did nothing. Set
+  `core.excludesfile = ~/.gitexcludes` in the committed gitconfig and modernized
+  `gitexcludes.symlink` (dropped dead SVN/Xcode-era cruft; added macOS + editor
+  swap + `.claude/settings.local.json`). `~/.config/git/ignore` is now redundant.
+- **Undo:** revert the two commits.
+
+### Config sweep result (other tools — nothing more to add now)
+- Default/untouched, not worth versioning: broot `conf.hjson`, gh `config.yml`.
+- Secret/excluded: gh `hosts.yml` (token), TablePlus (DB creds), `~/.ssh/config`
+  (infra) — the ssh config is high-value but belongs in Phase 4 as a template.
+- Deferred to Phase 3 (create good ones / needs export): tmux.conf (repo's is
+  stale + unlinked), `.nanorc`, `.ripgreprc`, global `.editorconfig`, bat/lazygit
+  configs, iTerm2 prefs sync. `~/.config/htop/htoprc` available on request
+  (skipped — htop rewrites it on quit, and btop is primary).
+
 ## Still pending (flagged for your decision)
-- `vscode/settings.json` still names your employer folder (`battlefy`) — fine if
-  the repo stays private; tell me to generalize it if it'll be public.
 - Stale `~/.Brewfile`, `~/.fzf.{zsh,bash}`, `~/.config/mc` can be deleted to declutter.
 - 4 Phase 1 commits + these are local — **not pushed** (you chose Hold).
 - Phase 3 (power-user settings) & Phase 4 (Linux server profile) — not started.

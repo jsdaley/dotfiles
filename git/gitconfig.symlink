@@ -1,6 +1,7 @@
 [core]
 	pager = delta
 	editor = micro
+	excludesfile = ~/.gitexcludes
 
 [interactive]
 	diffFilter = delta --color-only
