@@ -87,6 +87,22 @@ if [[ -d "$DOTFILES/config" ]]; then
   done < <(cd "$DOTFILES" && find config -type f)
 fi
 
+# ── 6b. Git identity (machine-specific; not committed) ───────────────────────
+step "Git identity"
+if [[ ! -f "$HOME/.gitconfig.local" ]]; then
+  read -r -p "  Git name  [Jared Daley]: " gname;  gname="${gname:-Jared Daley}"
+  read -r -p "  Git email [you@example.com]: " gemail
+  cat > "$HOME/.gitconfig.local" <<EOF
+# Machine/identity-specific git settings — NOT version-controlled.
+[user]
+	name = $gname
+	email = $gemail
+EOF
+  echo "  wrote ~/.gitconfig.local"
+else
+  echo "  ~/.gitconfig.local exists — leaving it."
+fi
+
 # ── 7. Runtimes via mise ─────────────────────────────────────────────────────
 step "mise runtimes"
 if command -v mise >/dev/null 2>&1; then

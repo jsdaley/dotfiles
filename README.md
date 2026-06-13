@@ -76,5 +76,12 @@ brew bundle cleanup --file brew/Brewfile.core   # list anything not in the manif
 git -C ~/workspace/dotfiles pull                # update, then re-run bootstrap if needed
 ```
 
-Local, uncommitted overrides (secrets, machine quirks) go in `~/.localrc`
-(sourced last by `.zshrc`).
+## Local / machine-specific (never committed)
+
+Anything sensitive or machine-specific stays out of the repo and is created in
+place by `bootstrap.sh`:
+
+- **`~/.localrc`** — shell secrets / per-machine env (sourced last by `.zshrc`).
+- **`~/.gitconfig.local`** — git identity (name, email, signing key). The
+  committed `gitconfig` ends with `[include] path = ~/.gitconfig.local`, so each
+  machine/profile can use its own email (e.g. a work address on the work box).

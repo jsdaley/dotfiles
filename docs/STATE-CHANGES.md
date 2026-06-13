@@ -171,10 +171,31 @@ change** without reverting everything else.
   .gnupg/.config/{op,gh}/.docker).
 - **Undo:** `mv` each file back out of the repo and remove the symlink.
 
+### P1-E — Templatize git identity (machine-specific) ✅
+- **Audited tracked configs AND full git history** for secrets/PII: clean — no
+  tokens/keys/IPs, no hardcoded `/Users/jsdaley`, real email
+  (commerce@jareddaley.com) never committed in any blob. Only identity data in
+  history is the GitHub **noreply** email + name (public-safe, already the author
+  on pushed commits) → no history rewrite warranted. Old upstream-author emails
+  (shanejonas/mjrusso) are pre-existing fork lineage, left intact.
+- **Hardened `.gitignore`**: `.gitconfig.local`, `*.local`, `.env*`, `.netrc`,
+  `secrets/` so local/sensitive files can never be committed.
+- Only the git `[user]` block was identity-specific.
+- Removed `[user]` from committed `git/gitconfig.symlink`; appended
+  `[include] path = ~/.gitconfig.local`. Created `~/.gitconfig.local` (NOT in
+  repo) with name/email. Added a `bootstrap.sh` step to create it (prompted) on
+  new machines. Lets the work box use a work email.
+- **Undo:** put `[user]` back in `gitconfig.symlink`, drop the include.
+
+### P1-F — Remove legacy Rake installer ✅
+- Removed `Rakefile` + `git/gitconfig.template` (the old Ruby installer + its
+  template), fully superseded by `bootstrap.sh` (which now also handles the git
+  identity templating the Rakefile used to do).
+- **Undo:** `git revert <commit>`.
+
 ## Still pending (flagged for your decision)
-- Legacy `Rakefile` + `git/gitconfig.template` are superseded by `bootstrap.sh` —
-  remove? (not done unprompted)
 - Stale `~/.Brewfile`, `~/.fzf.{zsh,bash}`, `~/.config/mc` can be deleted to declutter.
+- 4 Phase 1 commits + these are local — **not pushed** (you chose Hold).
 - Phase 3 (power-user settings) & Phase 4 (Linux server profile) — not started.
 - C8 — install/adopt GUI casks (handed to you; sudo).
 - Optional: set Homebrew zsh as login shell; delete dormant `~/.nodenv`.

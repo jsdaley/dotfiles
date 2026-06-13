@@ -2,8 +2,15 @@
 .DS_Store
 **/.DS_Store
 
-# Local, uncommitted overrides (secrets, machine-specific)
+# Local / machine-specific / sensitive — created in place by bootstrap.sh,
+# never committed (identity, secrets, per-machine env).
 .localrc
+.gitconfig.local
+*.local
+.env
+.env.*
+.netrc
+secrets/
 
 # Timestamped backups of replaced files
 backups/
