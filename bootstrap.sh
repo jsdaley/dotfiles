@@ -4,9 +4,8 @@
 # what to run, rather than assuming passwordless sudo.
 #
 # Usage:
-#   ./bootstrap.sh            # prompts for home|work
-#   ./bootstrap.sh home
-#   ./bootstrap.sh work
+#   ./bootstrap.sh            # prompts for the profile
+#   ./bootstrap.sh home       # or any profile: work, server, …
 set -euo pipefail
 
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -20,9 +19,9 @@ pause_for() { warn "$1"; read -r -p "Press Enter once that's done... " _; }
 # ── 1. Profile ───────────────────────────────────────────────────────────────
 PROFILE="${1:-}"
 if [[ -z "$PROFILE" ]]; then
-  read -r -p "Which profile is this machine? [home/work] " PROFILE
+  read -r -p "Which profile is this machine? [home/work/server/…] " PROFILE
 fi
-[[ "$PROFILE" == home || "$PROFILE" == work ]] || { echo "profile must be home or work"; exit 1; }
+PROFILE="${PROFILE:-home}"   # any profile name is allowed (extensible)
 step "Profile: $PROFILE"
 mkdir -p "$HOME/.config/dotfiles"
 echo "$PROFILE" > "$HOME/.config/dotfiles/profile"
@@ -63,75 +62,36 @@ clone_if_absent https://github.com/romkatv/powerlevel10k.git        "$ZCUSTOM/th
 clone_if_absent https://github.com/zsh-users/zsh-autosuggestions     "$ZCUSTOM/plugins/zsh-autosuggestions"
 clone_if_absent https://github.com/zsh-users/zsh-syntax-highlighting "$ZCUSTOM/plugins/zsh-syntax-highlighting"
 
-# ── 6. Symlink dotfiles ──────────────────────────────────────────────────────
-step "Linking dotfiles"
-TS="$(date +%Y%m%d-%H%M%S)"
-link() {  # link <source> <target>
-  local src="$1" dst="$2"
-  mkdir -p "$(dirname "$dst")"
-  if [[ -L "$dst" ]]; then rm "$dst"
-  elif [[ -e "$dst" ]]; then warn "backing up $dst -> $dst.$TS.bak"; mv "$dst" "$dst.$TS.bak"; fi
-  ln -s "$src" "$dst"
-  echo "  $dst -> $src"
-}
-# topic/*.symlink  ->  ~/.<name>
-while IFS= read -r f; do
-  base="$(basename "$f")"; name="${base%.symlink}"
-  link "$DOTFILES/$f" "$HOME/.$name"
-done < <(cd "$DOTFILES" && ls */*.symlink 2>/dev/null)
-# config/**  ->  ~/.config/**
-if [[ -d "$DOTFILES/config" ]]; then
-  while IFS= read -r f; do
-    rel="${f#config/}"
-    link "$DOTFILES/$f" "$HOME/.config/$rel"
-  done < <(cd "$DOTFILES" && find config -type f)
-fi
-
-# ── 6b. Git identity (machine-specific; not committed) ───────────────────────
-step "Git identity"
+# ── 6. Machine-specific files that must exist BEFORE linking ─────────────────
+step "Git identity (~/.gitconfig.local, not committed)"
 if [[ ! -f "$HOME/.gitconfig.local" ]]; then
   read -r -p "  Git name  [Jared Daley]: " gname;  gname="${gname:-Jared Daley}"
-  read -r -p "  Git email [you@example.com]: " gemail
-  cat > "$HOME/.gitconfig.local" <<EOF
-# Machine/identity-specific git settings — NOT version-controlled.
-[user]
-	name = $gname
-	email = $gemail
-EOF
+  read -r -p "  Git email: " gemail
+  printf '# Machine/identity-specific git settings — NOT version-controlled.\n[user]\n\tname = %s\n\temail = %s\n' "$gname" "$gemail" > "$HOME/.gitconfig.local"
   echo "  wrote ~/.gitconfig.local"
 else
   echo "  ~/.gitconfig.local exists — leaving it."
 fi
 
-# ── 6c. Editor configs (Claude Code + VS Code) ───────────────────────────────
-step "Editor configs"
-# Claude Code (settings only; account/history stay local)
-[[ -f "$DOTFILES/claude/settings.json" ]] && link "$DOTFILES/claude/settings.json" "$HOME/.claude/settings.json"
-# VS Code (macOS path; Linux desktop uses ~/.config/Code/User)
-if [[ "$(uname)" == Darwin ]]; then
-  VSC="$HOME/Library/Application Support/Code/User"
-elif [[ -d "$HOME/.config/Code/User" ]]; then
-  VSC="$HOME/.config/Code/User"
-fi
-if [[ -n "${VSC:-}" ]]; then
-  [[ -f "$DOTFILES/vscode/settings.json" ]]    && link "$DOTFILES/vscode/settings.json"    "$VSC/settings.json"
-  [[ -f "$DOTFILES/vscode/keybindings.json" ]] && link "$DOTFILES/vscode/keybindings.json" "$VSC/keybindings.json"
-  if command -v code >/dev/null 2>&1 && [[ -f "$DOTFILES/vscode/extensions.txt" ]]; then
-    echo "  installing VS Code extensions..."
-    xargs -n1 code --install-extension < "$DOTFILES/vscode/extensions.txt" >/dev/null 2>&1 || true
-  fi
-fi
-
-# ── 6d. SSH config (shared options; hosts stay local) ────────────────────────
-step "SSH config"
+step "SSH (preserve existing hosts into ~/.ssh/config.local)"
 mkdir -p "$HOME/.ssh"; chmod 700 "$HOME/.ssh"
-# Preserve any existing real ~/.ssh/config by moving its hosts into config.local
 if [[ -f "$HOME/.ssh/config" && ! -L "$HOME/.ssh/config" && ! -f "$HOME/.ssh/config.local" ]]; then
   mv "$HOME/.ssh/config" "$HOME/.ssh/config.local"
   echo "  moved existing ~/.ssh/config -> ~/.ssh/config.local (kept out of git)"
 fi
 [[ -f "$HOME/.ssh/config.local" ]] || { : > "$HOME/.ssh/config.local"; chmod 600 "$HOME/.ssh/config.local"; }
-[[ -f "$DOTFILES/ssh/config" ]] && link "$DOTFILES/ssh/config" "$HOME/.ssh/config" && chmod 600 "$HOME/.ssh/config" 2>/dev/null || true
+
+# ── 7. Symlink everything from the manifest (links.conf) ─────────────────────
+step "Linking dotfiles (links.conf)"
+bash "$DOTFILES/link.sh"
+chmod 600 "$HOME/.ssh/config" 2>/dev/null || true
+
+# ── 8. VS Code extensions (not a symlink) ────────────────────────────────────
+step "VS Code extensions"
+if command -v code >/dev/null 2>&1 && [[ -f "$DOTFILES/vscode/extensions.txt" ]]; then
+  xargs -n1 code --install-extension < "$DOTFILES/vscode/extensions.txt" >/dev/null 2>&1 || true
+  echo "  installed from vscode/extensions.txt"
+fi
 
 # ── 7. Runtimes via mise ─────────────────────────────────────────────────────
 step "mise runtimes"

@@ -25,15 +25,17 @@ and tells you exactly what to run.
 
 ## Profiles
 
-Each machine is `home` or `work`, stored in `~/.config/dotfiles/profile`:
+Each machine has a profile, stored in `~/.config/dotfiles/profile`. Profiles are
+first-class peers and the set is extensible — add a new one by creating a
+`Brewfile.<name>` (or apt set) and a `zsh/profile.<name>.zsh`.
 
-| Profile | Adds on top of core |
-|---------|---------------------|
-| `home`  | virtualization, retro emulation, media, games, disk tools |
-| `work`  | AWS, OpenTofu/Terragrunt/Ansible, registry tooling, VPN |
-| `server`| headless Linux (apt) — same zsh/p10k config + admin tooling; see `server/` |
+| Profile | OS | Adds on top of core |
+|---------|----|---------------------|
+| `home`  | macOS | virtualization, retro emulation, media, games, disk tools |
+| `work`  | macOS | AWS, OpenTofu/Terragrunt/Ansible, registry tooling, VPN |
+| `server`| Linux | headless: same zsh/p10k config + admin tooling (see `server/`) |
 
-Switch a machine's profile:
+Switch a macOS machine's profile:
 
 ```bash
 echo work > ~/.config/dotfiles/profile && brew/install.sh work && exec zsh
@@ -42,45 +44,51 @@ echo work > ~/.config/dotfiles/profile && brew/install.sh work && exec zsh
 ## Layout
 
 ```
-bootstrap.sh              one-command setup
+bootstrap.sh              one-command macOS setup
+link.sh                   symlinks everything per links.conf (OS-aware, idempotent)
+links.conf                THE symlink manifest:  source | target | when(all/macos/linux)
 brew/
-  Brewfile.core           shared packages (all machines)
-  Brewfile.home           home-only
-  Brewfile.work           work-only
+  Brewfile.{core,home,work}  shared + per-profile packages
   install.sh              brew bundle wrapper (core + active profile)
 zsh/
-  zshrc.symlink           orchestrator (→ ~/.zshrc)
-  zprofile.symlink        login-shell init: brew shellenv + OrbStack (→ ~/.zprofile)
-  path.zsh                PATH / Homebrew shellenv
-  aliases.zsh             modern-CLI aliases (ls→eza, cat→bat, …)
-  tools.zsh               fzf / zoxide / atuin / direnv / mise init
-  functions.zsh           shell functions (llm-start, extract, mkcd…)
-  profile.zsh             loads profile.{home,work,server}.zsh
-  profile.server.zsh      headless-Linux admin aliases (docker/systemd/journal)
-  p10k.zsh.symlink        Powerlevel10k prompt config (→ ~/.p10k.zsh)
-git/gitconfig.symlink     delta pager, aliases, sane defaults
-ssh/config                shared SSH options → ~/.ssh/config (+ Include config.local)
-config/                   XDG configs → ~/.config (atuin, mise, micro, …)
-claude/settings.json      Claude Code settings → ~/.claude/settings.json
-vscode/                   VS Code settings, keybindings, extensions.txt
+  zshrc                   orchestrator (→ ~/.zshrc)
+  zprofile                login init: brew + OrbStack (→ ~/.zprofile, macOS)
+  path.zsh / aliases.zsh / tools.zsh / functions.zsh / nudges.zsh
+  profile.zsh             loads profile.<active>.zsh
+  profile.{home,work,server}.zsh   per-profile shell extras
+  p10k.zsh                Powerlevel10k prompt (→ ~/.p10k.zsh)
+git/gitconfig, git/gitexcludes   git config (delta, aliases) + global ignore
+ssh/config                shared SSH options (+ Include ~/.ssh/config.local)
+config/                   XDG configs → ~/.config (atuin, mise, micro)
+claude/ , vscode/         macOS GUI app settings
 server/                   headless-Linux provisioning (recon.sh, packages.apt, setup.sh)
-bin/                      helper scripts (added to PATH)
+bin/                      helper scripts + custom git subcommands (on PATH)
 osx/set-defaults.sh       optional macOS defaults
-docs/
-  GUIDE.md                full feature/rationale/usage reference
-  STATE-CHANGES.md        reversible log of changes made
-  work-machine-audit.md   handoff prompt for the work machine's Claude session
+docs/                     GUIDE.md, STATE-CHANGES.md, work-machine-audit.md
 backups/                  timestamped backups of replaced files (gitignored)
 ```
 
-## Maintenance
+**Symlinks:** all managed by [`links.conf`](links.conf) — one line per file
+(`source | target | when`). `link.sh` applies it (OS-aware via the `when`
+column), backing up any real file it replaces. No more `*.symlink` suffix.
+
+## Updating (idempotent — only what changed)
+
+Configs are symlinks into the repo, so updates are cheap and re-runnable:
 
 ```bash
-brew/install.sh                 # re-sync packages for this profile
-mise install                    # install/refresh pinned runtimes
-brew bundle cleanup --file brew/Brewfile.core   # list anything not in the manifest
-git -C ~/workspace/dotfiles pull                # update, then re-run bootstrap if needed
+# macOS
+git -C ~/workspace/dotfiles pull   # symlinked configs update instantly
+./link.sh                          # pick up any new/changed symlinks
+brew/install.sh                    # install only newly-added packages
+mise install                       # refresh pinned runtimes
+
+# Linux servers (same idea)
+cd ~/dotfiles && git pull          # or: rsync from the Mac (transfers only deltas)
+bash server/setup.sh               # installs only missing packages; re-links
 ```
+
+Everything above is safe to re-run anytime; nothing redoes work already done.
 
 ## Local / machine-specific (never committed)
 

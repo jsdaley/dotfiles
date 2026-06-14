@@ -30,8 +30,9 @@ section, make it [Keybinding & alias cheat sheet](#keybinding--alias-cheat-sheet
 2. **Originals are never lost.** Aliases only affect interactive shells; scripts
    are unaffected. Reach the real tool with a backslash (`\ls`, `\grep`) or
    `command ls`. Shadowed builtins: `builtin cd`.
-3. **Two profiles, one core.** Shared tools live in `Brewfile.core`; machine
-   role adds `home` or `work`.
+3. **Profiles over a shared core.** `Brewfile.core` is shared; each machine adds
+   a profile (`home`/`work`/`server`, and the set is extensible). Symlinks are
+   declared once in `links.conf`.
 4. **Keep fallbacks.** Familiar/best-practice tools stay even when a fancier one
    exists (e.g. `htop` alongside `btop`, brew `python@3.11` alongside mise).
 5. **Reproducible & reversible.** Everything is a committed file; changes are
@@ -41,12 +42,18 @@ section, make it [Keybinding & alias cheat sheet](#keybinding--alias-cheat-sheet
 
 ## The profile system
 
-`~/.config/dotfiles/profile` holds `home` or `work`. It drives two things:
+`~/.config/dotfiles/profile` holds the active profile (`home`/`work`/`server`;
+the set is extensible). It drives:
 
-- **Packages:** `brew/install.sh` installs `Brewfile.core` then `Brewfile.<profile>`.
-- **Shell:** `zsh/profile.zsh` sources `zsh/profile.home.zsh` or `profile.work.zsh`.
+- **Packages:** macOS → `brew/install.sh` installs `Brewfile.core` then
+  `Brewfile.<profile>`. Linux server → `server/setup.sh` + `server/packages.apt`.
+- **Shell:** `zsh/profile.zsh` sources `zsh/profile.<profile>.zsh`.
 
-Switch profile: `echo work > ~/.config/dotfiles/profile && brew/install.sh && exec zsh`.
+**Symlinks** for every profile/OS come from one manifest — `links.conf` — applied
+by `link.sh`; the `when` column (all/macos/linux) gates per-OS files.
+
+Add a profile: create `Brewfile.<name>` (or apt set) + `zsh/profile.<name>.zsh`.
+Switch: `echo work > ~/.config/dotfiles/profile && brew/install.sh && exec zsh`.
 
 ---
 
@@ -86,16 +93,26 @@ PDFs/zips/docx), `tldr` (example-first help), `hyperfine` (benchmark), `tokei`
 > ⚠️ `find`→fd and `grep`→rg use **different argument syntax** than the originals.
 > A pasted `find . -name '*.go'` will fail — use `\find` or rewrite as `fd -e go`.
 
+**Retired tools nudge you forward.** Typing a removed/legacy tool (`nodenv`,
+`nvm`, `pyenv`, `mc`, `ranger`, `ack`, `egrep`, `fgrep`) prints a pointer to its
+replacement instead of failing (`zsh/nudges.zsh`). Force the original with
+`command <name>`.
+
 ---
 
 ## Navigation & history
 
 - **zoxide** powers `cd`. `cd` still works for real paths but learns your habits:
-  `cd dot` jumps to `~/workspace/dotfiles`. `cdi` opens an interactive picker.
-  `builtin cd` is the dumb original.
+  `cd dot` jumps to `~/workspace/dotfiles`. `cdi` is an interactive picker over
+  dirs **you've already visited** (frecency) — not the whole disk. `builtin cd`
+  is the plain original.
+- **`cdf`** — fuzzy-cd into ANY directory (fd + fzf). Use it when `cdi`/`Alt-C`
+  don't have what you want.
 - **fzf** fuzzy finder, wired with `fd` + `bat`/`eza` previews:
   - `Ctrl-T` — insert a file path (with preview)
-  - `Alt-C` — cd into a directory (with tree preview)
+  - `Alt-C` — cd into a directory. **macOS gotcha:** set iTerm → Settings →
+    Profiles → Keys → Left Option = `Esc+`, or Option won't register as Alt
+    (otherwise just use `cdf`).
   - `**<Tab>` — fuzzy-complete after any command (`vim **<Tab>`)
 - **atuin** owns `Ctrl-R` — full-text, fuzzy, stats-rich history search across all
   sessions. Local-only (no sync/account). Enter puts the command on the prompt to

@@ -10,13 +10,6 @@ set -euo pipefail
 HERE="$(cd "$(dirname "$0")" && pwd)"
 REPO="$(cd "$HERE/.." && pwd)"
 step(){ printf '\n\033[1;34m==> %s\033[0m\n' "$*"; }
-TS="$(date +%Y%m%d-%H%M%S)"
-link(){ # link <src> <dst>
-  local src="$1" dst="$2"; mkdir -p "$(dirname "$dst")"
-  if [[ -L "$dst" ]]; then rm "$dst"
-  elif [[ -e "$dst" ]]; then mv "$dst" "$dst.$TS.bak"; echo "  backed up $dst"; fi
-  ln -s "$src" "$dst"; echo "  $dst -> $src"
-}
 
 # --- 1. apt packages (skip any not available on this distro) + zsh ----------
 step "Installing packages (apt)"
@@ -49,13 +42,10 @@ if [[ ! -f "$HOME/.gitconfig.local" ]]; then
 fi
 [[ -f "$HOME/.ssh/config.local" ]] || { mkdir -p "$HOME/.ssh"; chmod 700 "$HOME/.ssh"; : > "$HOME/.ssh/config.local"; chmod 600 "$HOME/.ssh/config.local"; }
 
-# --- 5. symlink the SAME dotfiles the Mac uses -------------------------------
-step "Linking shared dotfiles from $REPO"
-link "$REPO/zsh/zshrc.symlink"        "$HOME/.zshrc"
-link "$REPO/zsh/p10k.zsh.symlink"     "$HOME/.p10k.zsh"
-link "$REPO/git/gitconfig.symlink"    "$HOME/.gitconfig"
-link "$REPO/git/gitexcludes.symlink"  "$HOME/.gitexcludes"
-link "$REPO/ssh/config"               "$HOME/.ssh/config"; chmod 600 "$HOME/.ssh/config" 2>/dev/null || true
+# --- 5. symlink the SAME dotfiles the Mac uses (via the shared manifest) ------
+step "Linking shared dotfiles (links.conf)"
+bash "$REPO/link.sh"
+chmod 600 "$HOME/.ssh/config" 2>/dev/null || true
 
 # --- 6. make zsh the login shell ---------------------------------------------
 step "Login shell"

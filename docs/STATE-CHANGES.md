@@ -279,11 +279,24 @@ change** without reverting everything else.
 - **`cdf`** function — fuzzy-cd into ANY dir (no Alt key needed); `cdi` only lists
   visited dirs by design.
 
+### Refactor — unified linker + first-class profiles ✅
+- **Manifest linker:** added `links.conf` (one line per file: `source | target |
+  when`) + `link.sh` (OS-aware, idempotent, backs up). Replaces the old mixed
+  scheme (`*.symlink` glob + hardcoded config/claude/vscode/ssh mappings).
+- **Dropped the `.symlink` suffix** — `git mv` zshrc/zprofile/p10k.zsh/gitconfig/
+  gitexcludes; re-linked via manifest; verified the live `~` symlinks + zsh/git.
+- **bootstrap.sh** + **server/setup.sh** now both just run `link.sh`; removed
+  their bespoke link loops. bootstrap accepts ANY profile name (extensible).
+- **First-class `server` profile:** peer of home/work in docs + profile system;
+  same zsh/p10k config via the manifest's `when` gating.
+- Merge conflict resolved (origin/master merged in); zoxide order fixed; nudges +
+  `cdf` added; `~/.ssh/config` migrated to the Include pattern.
+- **Undo:** `git revert` the relevant commits; `backups/` holds replaced files.
+
 ## Still pending (flagged for your decision)
-- Run the (rewritten) `server/setup.sh` on each box — commands in chat (now
-  rsync the whole repo, since servers reuse the Mac zsh modules + p10k).
-- Architecture decisions in flight: first-class `server` profile, unified symlink
-  convention (drop `.symlink`), terminal emulator (iTerm2 vs Ghostty).
+- Run the (rewritten) `server/setup.sh` on each box — `rsync` repo + run it.
+- Terminal emulator (iTerm2 vs Ghostty) — deferred ("decide later").
+- Phase 3 (power-user settings) — not started.
 - Stale `~/.Brewfile`, `~/.fzf.{zsh,bash}`, `~/.config/mc` can be deleted to declutter.
 - Phase 3 (power-user settings) — not started.
 - 4 Phase 1 commits + these are local — **not pushed** (you chose Hold).
