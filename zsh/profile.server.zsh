@@ -32,5 +32,7 @@ command -v pct >/dev/null 2>&1 && alias cts='pct list'
 
 # ── fastfetch on login shells only (not every tmux pane) ─────────────────────
 if command -v fastfetch >/dev/null 2>&1 && [[ -o login ]]; then
-  fastfetch
+  # p10k's instant prompt captures init output via a pipe, so fastfetch would
+  # auto-disable color; --pipe false forces colored output anyway.
+  fastfetch --pipe false
 fi
