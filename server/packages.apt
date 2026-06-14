@@ -13,6 +13,7 @@ zoxide
 git-delta
 duf
 ncdu
+# procs: in Debian apt; NOT in Ubuntu's repos — setup.sh installs it via snap there
 procs
 btop
 htop

@@ -342,7 +342,8 @@ change** without reverting everything else.
   screenshots→~/Screenshots, save-to-disk, etc.). Updated bootstrap + README + CI
   ignore. Lints clean.
 - Repo confirmed free of the old convention (no *.symlink/Rakefile/vim/emacs/ack/tmux).
-- Not removed (your call, kept): `iterm/*.itermcolors`, stray untracked
+- Removed: `iterm/*.itermcolors` (inherited 2021 Solarized themes — unused).
+- Not removed (your call, kept): stray untracked
   `.claude/settings.local.json`, the merged `modernized-2026` branch.
 
 ## Still pending
