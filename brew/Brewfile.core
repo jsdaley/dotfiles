@@ -62,6 +62,7 @@ brew 'git-delta'        # syntax-highlighting diff pager (delta)
 brew 'difftastic'       # structural/syntax-aware diff (difft)
 brew 'lazygit'          # keyboard-driven git TUI
 brew 'tig'              # ncurses git history browser
+brew 'shellcheck'       # shell script linter (also enforced in CI)
 
 ###############################################################################
 # JSON / data wrangling

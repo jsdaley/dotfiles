@@ -21,6 +21,7 @@ jq
 yq
 micro
 tmux
+shellcheck
 
 # --- general ---
 git

@@ -15,8 +15,9 @@ jobs:
       - uses: ludeeus/action-shellcheck@master
         with:
           severity: warning
-          # zsh files aren't shellcheck-able; bin/ is inherited legacy.
-          ignore_paths: zsh bin
+          # zsh files aren't POSIX-shell and can't be linted. bin/ IS linted now
+          # (Ruby scripts there are auto-skipped by shebang detection).
+          ignore_paths: zsh
         env:
           SHELLCHECK_OPTS: -e SC1071 -e SC2088
 
