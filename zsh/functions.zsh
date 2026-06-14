@@ -22,6 +22,13 @@ llm-stop() {
 mkcd() { mkdir -p "$1" && builtin cd "$1"; }
 
 # ── extract: unpack most archive types ───────────────────────────────────────
+# cdf: fuzzy-cd into ANY directory (no Alt key needed; complements zoxide's `cdi`,
+# which only lists dirs you've already visited). Optional arg = root to search.
+cdf() {
+  local dir
+  dir=$(fd --type d --hidden --follow --exclude .git . "${1:-.}" 2>/dev/null | fzf +m) && cd "$dir"
+}
+
 extract() {
   if [[ -f "$1" ]]; then
     case "$1" in

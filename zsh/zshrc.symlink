@@ -36,12 +36,17 @@ source "$ZSH/oh-my-zsh.sh"
 
 # ── Modules ──────────────────────────────────────────────────────────────────
 source "$DOTFILES/zsh/aliases.zsh"
-source "$DOTFILES/zsh/tools.zsh"
+source "$DOTFILES/zsh/nudges.zsh"
 source "$DOTFILES/zsh/functions.zsh"
 source "$DOTFILES/zsh/profile.zsh"
 
 # ── Powerlevel10k prompt config ──────────────────────────────────────────────
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
+
+# ── Shell-integration tools LAST ─────────────────────────────────────────────
+# zoxide/atuin/fzf hook into the prompt and keybindings, so they must initialize
+# AFTER oh-my-zsh and p10k (otherwise p10k clobbers zoxide's dir-tracking hook).
+source "$DOTFILES/zsh/tools.zsh"
 
 # ── Local, uncommitted overrides (secrets, machine-specific) ─────────────────
 [[ -f ~/.localrc ]] && source ~/.localrc

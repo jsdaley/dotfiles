@@ -267,9 +267,23 @@ change** without reverting everything else.
   does the same migration on new machines. `*.local` already gitignored.
 - **Undo:** restore `~/.ssh/config` from backup; revert commits.
 
+### Fixes — 2026-06-13 (later)
+- **Merge unblocked:** `origin/master` had advanced (your "4 year update" +
+  "remove garbage"); merged it into `modernized-2026`, resolved the one real
+  conflict (`zsh/zshrc.symlink` → keep modernized) + kept `.DS_Store` deleted.
+  Branch now merges cleanly to master.
+- **zoxide init moved LAST** in `zshrc` (after p10k) — fixes the "initialize at end"
+  warning and the empty-`cdi` problem (p10k was clobbering zoxide's dir hook).
+- **`zsh/nudges.zsh`** added — retired tools (nodenv/node-build/nvm/pyenv/mc/
+  ranger/ack/egrep/fgrep) print "use <modern tool>" instead of failing.
+- **`cdf`** function — fuzzy-cd into ANY dir (no Alt key needed); `cdi` only lists
+  visited dirs by design.
+
 ## Still pending (flagged for your decision)
 - Run the (rewritten) `server/setup.sh` on each box — commands in chat (now
   rsync the whole repo, since servers reuse the Mac zsh modules + p10k).
+- Architecture decisions in flight: first-class `server` profile, unified symlink
+  convention (drop `.symlink`), terminal emulator (iTerm2 vs Ghostty).
 - Stale `~/.Brewfile`, `~/.fzf.{zsh,bash}`, `~/.config/mc` can be deleted to declutter.
 - Phase 3 (power-user settings) — not started.
 - 4 Phase 1 commits + these are local — **not pushed** (you chose Hold).
