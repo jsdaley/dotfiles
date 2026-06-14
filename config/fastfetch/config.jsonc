@@ -9,7 +9,8 @@
     },
     "modules": [
         "break",
-        { "type": "title", "format": "{user-name-colored}{at-symbol-colored}{host-name-colored}" },
+        { "type": "command", "key": " ", "text": "command -v figlet >/dev/null 2>&1 && figlet -f small \"$(hostname -s)\" || hostname -s" },
+        "break",
         { "type": "custom", "format": "┌───────────────────────────── System ─────────────────────────────┐" },
         { "type": "os",       "key": "│ OS",     "keyColor": "green", "format": "{pretty-name} {arch}" },
         { "type": "kernel",   "key": "│ Kernel", "keyColor": "green" },
