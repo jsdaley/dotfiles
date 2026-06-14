@@ -15,9 +15,10 @@ jobs:
       - uses: ludeeus/action-shellcheck@master
         with:
           severity: warning
+          # zsh files aren't shellcheck-able; bin/ and osx/ are inherited legacy.
+          ignore_paths: zsh bin osx
         env:
-          # bin/ has some non-shell scripts (ruby); skip "unsupported shell".
-          SHELLCHECK_OPTS: -e SC1071
+          SHELLCHECK_OPTS: -e SC1071 -e SC2088
 
   gitleaks:
     runs-on: ubuntu-latest
@@ -25,4 +26,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: gitleaks/gitleaks-action@v2
+      - name: gitleaks (binary — avoids the licensed action)
+        run: |
+          ver=8.28.0
+          curl -sSfL "https://github.com/gitleaks/gitleaks/releases/download/v${ver}/gitleaks_${ver}_linux_x64.tar.gz" \
+            | tar -xz gitleaks
+          ./gitleaks detect --redact --no-banner
