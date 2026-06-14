@@ -2,6 +2,7 @@
 	pager = delta
 	editor = micro
 	excludesfile = ~/.gitexcludes
+	ignorecase = false     # case-sensitive filenames (avoid case-only rename issues on APFS)
 
 [interactive]
 	diffFilter = delta --color-only
