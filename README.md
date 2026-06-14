@@ -55,6 +55,7 @@ brew/
   install.sh              brew bundle wrapper (core + active profile)
 zsh/
   zshrc                   orchestrator (→ ~/.zshrc)
+  zshenv                  global env for ALL zsh contexts (→ ~/.zshenv)
   zprofile                login init: brew + OrbStack (→ ~/.zprofile, macOS)
   path.zsh / aliases.zsh / tools.zsh / functions.zsh / nudges.zsh
   profile.zsh             loads profile.<active>.zsh

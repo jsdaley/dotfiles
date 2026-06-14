@@ -326,6 +326,8 @@ change** without reverting everything else.
 - p10k: `INSTANT_PROMPT=quiet` (server fastfetch banner) + `fastfetch --pipe false`
   (keep color); figlet hostname banner in the shared fastfetch base (seeded if absent).
 - zoxide: init last + `_ZO_DOCTOR=0` (p10k re-juggles hooks → false-positive warning).
+  `_ZO_DOCTOR=0` also exported from new `zsh/zshenv` (→ ~/.zshenv) so the doctor is
+  silenced in non-interactive/nested/tool shells too, not just interactive ones.
 - fzf: version-aware init (`--zsh` on ≥0.48, distro files on Ubuntu 24.04's 0.44).
 - bat: `--map-syntax *.jsonc/*.json5 → JSON` (older bat 0.24 lacks the mapping).
 - Python: removed redundant brew `python@3.11` (nothing depended on it; pulled
