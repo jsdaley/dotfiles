@@ -55,8 +55,10 @@ cask 'aws-vpn-client'        # work AWS VPN
 cask 'postico'               # Postico 2 — primary DB client
 cask 'dbeaver-community'     # kept alongside Postico
 cask 'mysql-shell'           # MySQL shell
-cask 'azure-data-studio'     # SQL Server / Azure data
-cask 'redisinsight'          # Redis Insight
+# azure-data-studio: discontinued upstream + disabled in Homebrew (2026-02-28).
+#   Successor is the MSSQL extension for VS Code (ms-mssql.mssql) — add to
+#   vscode/extensions.txt if SQL Server access is still needed.
+cask 'redis-insight'         # Redis Insight (was 'redisinsight')
 
 ###############################################################################
 # Intentionally NOT here (documented so the drift doesn't creep back):
