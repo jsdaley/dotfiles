@@ -293,10 +293,33 @@ change** without reverting everything else.
   `cdf` added; `~/.ssh/config` migrated to the Include pattern.
 - **Undo:** `git revert` the relevant commits; `backups/` holds replaced files.
 
-## Still pending (flagged for your decision)
-- Run the (rewritten) `server/setup.sh` on each box — `rsync` repo + run it.
-- Terminal emulator (iTerm2 vs Ghostty) — deferred ("decide later").
-- Phase 3 (power-user settings) — not started.
+## Phase 3 — power-user, configs & security (branch `modernized-2026`)
+
+### P3 batch 1 ✅
+- **Pruned dead `bin/`:** removed `backup` (prev-owner's volume), `hn`, `webkit2png`,
+  `json`, `search` (ack), `db` (old /usr/local), `e`/`et` (emacs). Kept all `git-*`,
+  `here`, `flush-dns-cache`.
+- **micro:** added `config/micro/settings.json` (sane modern CUA defaults: tabsize 2,
+  trim ws, softwrap, system clipboard, incsearch…). Bindings already had comment-toggle.
+- **New tool configs:** `config/ripgrep/config` (smart-case/hidden; via
+  `RIPGREP_CONFIG_PATH`), `config/bat/config`. Linked via manifest.
+- **zsh plugins:** added `fzf-tab` (fuzzy tab completion) + `you-should-use`
+  (reminds you of aliases → reinforces the modern-tool habit). Wired into zshrc +
+  both installers; cloned locally.
+- **Security scanners:** `trufflehog` + `gitleaks` in Brewfile.core; `just secrets`
+  recipe scans a repo on demand. (No global git hook — would conflict with husky.)
+- **AI safety:** `claude/settings.json` now has `permissions.deny` blocking Claude
+  from reading secrets (`.env`, `~/.ssh`, `~/.aws`, `~/.gnupg`, `*.key/*.pem`,
+  `*.local`, `secrets/`, `.npmrc`, gh hosts).
+- **Coordination:** added `just` + `Justfile` (link/install/update/secrets/server/
+  servers) as the cross-machine entry point (chosen over ansible — lighter for a
+  handful of hosts).
+- **Undo:** `git revert`; `backups/` holds replaced files.
+
+## Still pending
+- Run `server/setup.sh` on each box (`just servers` once pushed/synced).
+- Terminal emulator (iTerm2 vs Ghostty) — deferred.
+- P3 follow-ups: AI redaction proxy (opt-in), Claude skills/marketplaces (see chat).
 - Stale `~/.Brewfile`, `~/.fzf.{zsh,bash}`, `~/.config/mc` can be deleted to declutter.
 - Phase 3 (power-user settings) — not started.
 - 4 Phase 1 commits + these are local — **not pushed** (you chose Hold).

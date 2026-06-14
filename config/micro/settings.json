@@ -1,0 +1,20 @@
+{
+    "//": "micro editor — sane, modern CUA-style defaults (not nano/vim bindings).",
+    "tabsize": 2,
+    "tabstospaces": true,
+    "autoindent": true,
+    "rmtrailingws": true,
+    "savecursor": true,
+    "matchbrace": true,
+    "softwrap": true,
+    "wordwrap": true,
+    "scrollbar": true,
+    "diffgutter": true,
+    "mouse": true,
+    "clipboard": "external",
+    "incsearch": true,
+    "hlsearch": true,
+    "tabhighlight": true,
+    "statusline": true,
+    "colorscheme": "simple"
+}

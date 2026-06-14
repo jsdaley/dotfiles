@@ -58,9 +58,11 @@ if [[ ! -d "$ZSH" ]]; then
 fi
 ZCUSTOM="${ZSH_CUSTOM:-$ZSH/custom}"
 clone_if_absent() { [[ -d "$2" ]] || git clone --depth=1 "$1" "$2"; }
-clone_if_absent https://github.com/romkatv/powerlevel10k.git        "$ZCUSTOM/themes/powerlevel10k"
-clone_if_absent https://github.com/zsh-users/zsh-autosuggestions     "$ZCUSTOM/plugins/zsh-autosuggestions"
-clone_if_absent https://github.com/zsh-users/zsh-syntax-highlighting "$ZCUSTOM/plugins/zsh-syntax-highlighting"
+clone_if_absent https://github.com/romkatv/powerlevel10k.git           "$ZCUSTOM/themes/powerlevel10k"
+clone_if_absent https://github.com/zsh-users/zsh-autosuggestions       "$ZCUSTOM/plugins/zsh-autosuggestions"
+clone_if_absent https://github.com/zsh-users/zsh-syntax-highlighting   "$ZCUSTOM/plugins/zsh-syntax-highlighting"
+clone_if_absent https://github.com/Aloxaf/fzf-tab                      "$ZCUSTOM/plugins/fzf-tab"
+clone_if_absent https://github.com/MichaelAquilina/zsh-you-should-use  "$ZCUSTOM/plugins/you-should-use"
 
 # ── 6. Machine-specific files that must exist BEFORE linking ─────────────────
 step "Git identity (~/.gitconfig.local, not committed)"

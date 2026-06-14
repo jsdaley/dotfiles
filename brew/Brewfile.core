@@ -38,6 +38,7 @@ brew 'hyperfine'        # CLI benchmarking
 brew 'tokei'            # count lines of code, fast
 brew 'ncdu'             # interactive disk-usage TUI (promoted from server profile)
 brew 'fastfetch'        # system info on demand (promoted from server profile)
+brew 'just'             # command runner — one entry point (see Justfile)
 
 ###############################################################################
 # Shell & terminal experience
@@ -97,6 +98,8 @@ brew 'gnupg'
 brew 'pinentry-mac'     # GPG pinentry on macOS
 brew 'ykman'            # YubiKey manager
 brew 'mkcert'           # locally-trusted dev certs
+brew 'trufflehog'       # find leaked/verified secrets in git history & files
+brew 'gitleaks'         # fast secret scanner (pre-commit / CI)
 
 ###############################################################################
 # Editors

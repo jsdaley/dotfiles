@@ -1,6 +1,9 @@
 # zsh/tools.zsh — initialize interactive tools (all guarded by command -v)
 # Order matters: fzf first, then atuin (so atuin owns Ctrl-R).
 
+# ── tool config locations ────────────────────────────────────────────────────
+[[ -f ~/.config/ripgrep/config ]] && export RIPGREP_CONFIG_PATH="$HOME/.config/ripgrep/config"
+
 # ── fzf: fuzzy finder (Ctrl-T files, Alt-C cd, ** completion) ────────────────
 if command -v fzf >/dev/null 2>&1; then
   source <(fzf --zsh) 2>/dev/null

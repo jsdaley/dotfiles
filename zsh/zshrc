@@ -28,10 +28,11 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 zstyle ':omz:update' mode disabled
 # Plugins are OS-aware so the same config works on macOS and Linux servers.
 # (fzf/direnv are initialized in tools.zsh, not via omz, to stay portable.)
-plugins=(git npm docker docker-compose)
+plugins=(git npm docker docker-compose you-should-use)
 [[ "$OSTYPE" == darwin* ]] && plugins+=(brew macos)
+# fzf-tab must load after compinit but before the widget-wrapping plugins;
 # zsh-syntax-highlighting MUST stay last.
-plugins+=(zsh-autosuggestions zsh-syntax-highlighting)
+plugins+=(fzf-tab zsh-autosuggestions zsh-syntax-highlighting)
 source "$ZSH/oh-my-zsh.sh"
 
 # ── Modules ──────────────────────────────────────────────────────────────────

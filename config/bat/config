@@ -1,0 +1,4 @@
+# bat config (~/.config/bat/config)
+--theme="ansi"
+--style="numbers,changes,header"
+--italic-text=always

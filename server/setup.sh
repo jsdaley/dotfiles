@@ -30,9 +30,11 @@ export ZSH="${ZSH:-$HOME/.oh-my-zsh}"
 [[ -d "$ZSH" ]] || RUNZSH=no KEEP_ZSHRC=yes sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ZC="${ZSH_CUSTOM:-$ZSH/custom}"
 clone(){ [[ -d "$2" ]] || git clone --depth=1 "$1" "$2"; }
-clone https://github.com/romkatv/powerlevel10k.git        "$ZC/themes/powerlevel10k"
-clone https://github.com/zsh-users/zsh-autosuggestions     "$ZC/plugins/zsh-autosuggestions"
-clone https://github.com/zsh-users/zsh-syntax-highlighting "$ZC/plugins/zsh-syntax-highlighting"
+clone https://github.com/romkatv/powerlevel10k.git           "$ZC/themes/powerlevel10k"
+clone https://github.com/zsh-users/zsh-autosuggestions       "$ZC/plugins/zsh-autosuggestions"
+clone https://github.com/zsh-users/zsh-syntax-highlighting   "$ZC/plugins/zsh-syntax-highlighting"
+clone https://github.com/Aloxaf/fzf-tab                      "$ZC/plugins/fzf-tab"
+clone https://github.com/MichaelAquilina/zsh-you-should-use  "$ZC/plugins/you-should-use"
 
 # --- 4. profile marker + local (uncommitted) files ---------------------------
 step "Profile + local files"
