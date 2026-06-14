@@ -41,6 +41,46 @@
   "terminal.integrated.minimumContrastRatio": 1,
   "workbench.secondarySideBar.defaultVisibility": "hidden",
   "editor.unicodeHighlight.nonBasicASCII": false,
+  "//dev": "Salvaged from the work machine — general dev + per-language settings (inert where the language/tool isn't used).",
+  "editor.renderWhitespace": "all",
+  "editor.renderControlCharacters": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "typescript.surveys.enabled": false,
+  "typescript.tsserver.log": "off",
+  "python.languageServer": "Pylance",
+  "black-formatter.args": [
+    "--experimental-string-processing"
+  ],
+  "docker.extension.enableComposeLanguageServer": false,
+  "nxConsole.showNodeVersionOnStartup": false,
+  "powershell.powerShellDefaultVersion": "pwsh",
+  "powershell.powerShellAdditionalExePaths": {
+    "pwsh": "/opt/homebrew/bin/pwsh"
+  },
+  "terminal.external.osxExec": "Ghostty.app",
+  "[json]": { "editor.defaultFormatter": "vscode.json-language-features" },
+  "[jsonc]": { "editor.defaultFormatter": "vscode.json-language-features" },
+  "[javascript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[python]": { "editor.formatOnType": true },
+  "[yaml]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.autoIndent": "advanced",
+    "diffEditor.ignoreTrimWhitespace": false,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[dockercompose]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.autoIndent": "advanced",
+    "editor.quickSuggestions": { "other": true, "comments": false, "strings": true },
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "[github-actions-workflow]": { "editor.defaultFormatter": "redhat.vscode-yaml" },
   "claudeCode.preferredLocation": "panel",
   "//": "Terminal panel colors mirror the iTerm2/Ghostty palette (terminal-only; editor keeps its theme). Drop terminal.background/foreground to blend with the editor theme instead.",
   "workbench.colorCustomizations": {
