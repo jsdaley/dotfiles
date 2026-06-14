@@ -1,0 +1,8 @@
+# ripgrep config — activated via RIPGREP_CONFIG_PATH (set in zsh/tools.zsh).
+--smart-case
+--hidden
+--glob=!.git/
+--max-columns=200
+--max-columns-preview
+--colors=line:fg:yellow
+--colors=match:style:bold

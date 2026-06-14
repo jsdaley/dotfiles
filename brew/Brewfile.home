@@ -1,0 +1,66 @@
+# Brewfile.home — home machine additions (layered on top of Brewfile.core)
+# Installed via: brew bundle --file brew/Brewfile.home
+# Personal / hobby: virtualization, retro computing, media.
+
+###############################################################################
+# Virtualization & emulation
+###############################################################################
+brew 'qemu'                  # machine emulator / virtualizer
+brew 'libvirt'               # virtualization management API
+brew 'libvirt-glib'          # glib bindings for libvirt
+brew 'gtk-vnc'               # VNC viewer widget (virt console)
+brew 'spice-gtk'             # SPICE client (virt console)
+# virt-viewer: only in untrusted third-party tap (jeffreywildman/virt-manager),
+# which Homebrew 6.x refuses. You use UTM/VMware GUIs for consoles anyway.
+# To add manually later: brew tap jeffreywildman/virt-manager && brew install virt-viewer
+
+###############################################################################
+# Retro / low-level development
+###############################################################################
+brew 'cc65'                  # 6502 C compiler (C64/NES era)
+brew 'wimlib'                # Windows imaging (.wim) tooling
+
+###############################################################################
+# Virtualization (GUI)
+###############################################################################
+cask 'utm'                   # QEMU-based VM manager
+
+###############################################################################
+# Retro emulation (verify tokens with `brew search` if any fail)
+###############################################################################
+cask 'dosbox-staging'        # modern DOSBox fork
+cask 'retroarch'             # multi-system emulator frontend
+cask 'snes9x'                # SNES emulator
+# cask '86box'               # PC emulator — verify token before enabling
+
+###############################################################################
+# Media (hobby)
+###############################################################################
+cask 'audacity'              # audio editor
+cask 'iina'                  # modern macOS media player
+cask 'vlc'                   # media player
+cask 'plex'                  # media server
+cask 'plexamp'               # Plex music player
+cask 'downie'                # video downloader
+cask 'shotcut'               # video editor
+cask 'musescore'             # music notation
+
+###############################################################################
+# Games (launchers)
+###############################################################################
+cask 'steam'
+cask 'gog-galaxy'
+
+###############################################################################
+# Disk / backup utilities
+###############################################################################
+cask 'carbon-copy-cloner'    # disk cloning/backup
+cask 'balenaetcher'          # flash OS images to USB/SD
+cask 'grandperspective'      # visual disk usage
+cask 'keepingyouawake'       # prevent sleep (menubar)
+cask 'openmtp'               # native Android file transfer (replaces Google's Intel-only app)
+
+###############################################################################
+# Pascal / Lazarus (kept from your setup)
+###############################################################################
+cask 'fpc-laz'               # Free Pascal compiler for Lazarus

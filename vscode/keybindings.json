@@ -1,0 +1,19 @@
+// Place your key bindings in this file to overwrite the defaults
+[
+  {
+    "key": "alt+cmd+p",
+    "command": "projectManager.listProjectsNewWindow"
+  },
+  {
+    "key": "alt+cmd+p",
+    "command": "-projectManager.listProjects"
+},
+{
+    "key": "shift+enter",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": {
+        "text": "\\\r\n"
+    },
+    "when": "terminalFocus"
+}
+]

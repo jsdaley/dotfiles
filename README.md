@@ -1,71 +1,104 @@
-shanes's dotfiles
-==================
-Focusing on Coffee-Script/Javascript Development
+# Jared's dotfiles
 
-My fork of [@mjsrusso](http://github.com/mjrusso)'s dotfiles. ([Inspiration](http://zachholman.com/2010/08/dotfiles-are-meant-to-be-forked/))
+Cross-platform personal dotfiles — **macOS** (Apple Silicon) and **headless
+Linux servers** (Debian/Ubuntu) — sharing one modern zsh + Powerlevel10k setup,
+a curated mostly-Rust CLI toolchain, and a **profile** system (`home` / `work` /
+`server`, extensible) over a shared core.
 
-installation
-------------
+> Lineage: forked long ago from a Holman-style setup. Modernized in 2026 — see
+> [`docs/GUIDE.md`](docs/GUIDE.md) for the full tour and the rationale behind
+> every tool, and [`docs/SECURITY.md`](docs/SECURITY.md) for the security posture.
 
-    git clone git://github.com/shanejonas/dotfiles ~/.dotfiles
-    cd ~/.dotfiles
-    rake install
-    vim +BundleInstall +qall
+## Quick start
 
-my setup
---------
-- Vim +vundle +powerline +vim-coffee-script +syntastic +supertab
-- Zsh +oh-my-zsh
+**macOS:**
+```bash
+git clone https://github.com/jsdaley/dotfiles.git ~/workspace/dotfiles
+cd ~/workspace/dotfiles
+./bootstrap.sh            # asks the profile; idempotent, safe to re-run
+exec zsh                  # or open a new terminal
+```
+`bootstrap.sh` installs Xcode CLT + Homebrew, runs `brew bundle` for the core +
+chosen profile, sets up oh-my-zsh / Powerlevel10k / plugins, symlinks the dotfiles
+(`link.sh`), provisions runtimes via `mise`, and installs global npm CLIs.
+Privileged steps pause and tell you exactly what to run.
 
-Bonus: Emacs +evil-mode (vim-bindings) for the adventurous
+**Linux server:** copy the repo to the box and run `server/setup.sh` (or
+`just servers` from the Mac) — see [`server/`](server/).
 
+## Profiles
 
-additions
---------
-###Adding syntax highlighting to zsh
-* clone this repository into the
-  [oh-my-zsh](http://github.com/robbyrussell/oh-my-zsh) plugins
-directory (create it if its not there):
+Each machine has a profile, stored in `~/.config/dotfiles/profile`. Profiles are
+first-class peers and the set is extensible — add a new one by creating a
+`Brewfile.<name>` (or apt set) and a `zsh/profile.<name>.zsh`.
 
-        cd ~/.oh-my-zsh/custom/plugins
-        git clone git://github.com/zsh-users/zsh-syntax-highlighting.git
+| Profile | OS | Adds on top of core |
+|---------|----|---------------------|
+| `home`  | macOS | virtualization, retro emulation, media, games, disk tools |
+| `work`  | macOS | AWS, OpenTofu/Terragrunt/Ansible, registry tooling, VPN |
+| `server`| Linux | headless: same zsh/p10k config + admin tooling (see `server/`) |
 
-* Activate the plugin in `~/.zshrc` (in **last** position):
+Switch a macOS machine's profile:
 
-        plugins=( [plugins...] zsh-syntax-highlighting)
+```bash
+echo work > ~/.config/dotfiles/profile && brew/install.sh work && exec zsh
+```
 
-* Source `~/.zshrc`  to take changes into account:
-    
-        source ~/.zshrc
+## Layout
 
-notes
------
+```
+bootstrap.sh              one-command macOS setup
+link.sh                   symlinks everything per links.conf (OS-aware, idempotent)
+links.conf                THE symlink manifest:  source | target | when(all/macos/linux)
+brew/
+  Brewfile.{core,home,work}  shared + per-profile packages
+  install.sh              brew bundle wrapper (core + active profile)
+zsh/
+  zshrc                   orchestrator (→ ~/.zshrc)
+  zprofile                login init: brew + OrbStack (→ ~/.zprofile, macOS)
+  path.zsh / aliases.zsh / tools.zsh / functions.zsh / nudges.zsh
+  profile.zsh             loads profile.<active>.zsh
+  profile.{home,work,server}.zsh   per-profile shell extras
+  p10k.zsh                Powerlevel10k prompt (→ ~/.p10k.zsh)
+git/gitconfig, git/gitexcludes   git config (delta, aliases) + global ignore
+ssh/config                shared SSH options (+ Include ~/.ssh/config.local)
+config/                   XDG configs → ~/.config (atuin, mise, micro)
+claude/ , vscode/         macOS GUI app settings
+server/                   headless-Linux provisioning (recon.sh, packages.apt, setup.sh)
+bin/                      helper scripts + custom git subcommands (on PATH)
+osx/set-defaults.sh       optional macOS defaults
+docs/                     GUIDE.md, SECURITY.md, STATE-CHANGES.md, work-machine-audit.md
+backups/                  timestamped backups of replaced files (gitignored)
+```
 
-- **bin/**: Anything in `bin/` will be added to your `$PATH` and be made
-  available everywhere.
+**Symlinks:** all managed by [`links.conf`](links.conf) — one line per file
+(`source | target | when`). `link.sh` applies it (OS-aware via the `when`
+column), backing up any real file it replaces. No more `*.symlink` suffix.
 
-- **topic/\*.sh**: Any files ending in `.sh` get loaded into your environment.
+## Updating (idempotent — only what changed)
 
-- **topic/\*.symlink**: Any files ending in `*.symlink` get symlinked into
-  your `$HOME`. (These files get symlinked when you run `rake install`.)
+Configs are symlinks into the repo, so updates are cheap and re-runnable:
 
-  - symlinks can be generated in cases where these standard **topic/\*.symlink**
-  symlink rules do not apply; see the `:install` task of the `Rakefile` for details.
+```bash
+# macOS
+git -C ~/workspace/dotfiles pull   # symlinked configs update instantly
+./link.sh                          # pick up any new/changed symlinks
+brew/install.sh                    # install only newly-added packages
+mise install                       # refresh pinned runtimes
 
-- **.localrc**: Create a file called `.localrc` to store any data that you do
-  not want committed to the git repository (secrets, etc.).
+# Linux servers (same idea)
+cd ~/dotfiles && git pull          # or: rsync from the Mac (transfers only deltas)
+bash server/setup.sh               # installs only missing packages; re-links
+```
 
-system
-------
+Everything above is safe to re-run anytime; nothing redoes work already done.
 
-OS X, with the [Homebrew package manager](http://mxcl.github.com/homebrew/).
+## Local / machine-specific (never committed)
 
-thanks
-------
+Anything sensitive or machine-specific stays out of the repo and is created in
+place by `bootstrap.sh`:
 
-These dotfiles are heavily based on [Zach Holman's dotfiles](https://github.com/holman/dotfiles).
-
-Also includes code from the following dotfiles:
-
-- [Mathias Bynens](https://github.com/mathiasbynens/dotfiles)
-- [Andrew Sardone](https://github.com/andrewsardone/dotfiles)
+- **`~/.localrc`** — shell secrets / per-machine env (sourced last by `.zshrc`).
+- **`~/.gitconfig.local`** — git identity (name, email, signing key). The
+  committed `gitconfig` ends with `[include] path = ~/.gitconfig.local`, so each
+  machine/profile can use its own email (e.g. a work address on the work box).

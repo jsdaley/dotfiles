@@ -1,0 +1,15 @@
+# Shared SSH client config (committed). Symlinked to ~/.ssh/config.
+# Host-specific / sensitive entries (real hostnames, IPs, jump hosts, identity
+# files) live in ~/.ssh/config.local — gitignored, created by the installer.
+# ssh uses the FIRST value seen for each option, so the local include wins.
+
+Include ~/.ssh/config.local
+
+# Strong ciphers
+Ciphers aes128-ctr,aes192-ctr,aes256-ctr,aes128-gcm@openssh.com,aes256-gcm@openssh.com,chacha20-poly1305@openssh.com
+
+Host *
+    ServerAliveInterval 60
+    ServerAliveCountMax 3
+    AddKeysToAgent yes
+    HashKnownHosts yes

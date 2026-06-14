@@ -1,0 +1,44 @@
+# Shared apt packages for headless Linux servers (Debian 13 / Ubuntu 24.04+).
+# Read and installed by server/setup.sh (which skips any not available on the box).
+# Debian note: 'bat' installs the binary 'batcat'; 'fd-find' installs 'fdfind'
+# — setup.sh symlinks them to bat/fd in ~/.local/bin.
+
+# --- modern CLI / quality-of-life ---
+eza
+bat
+fd-find
+ripgrep
+fzf
+zoxide
+git-delta
+duf
+ncdu
+procs
+btop
+htop
+tree
+jq
+yq
+micro
+tmux
+
+# --- general ---
+git
+curl
+wget
+rsync
+gnupg
+ca-certificates
+unzip
+fastfetch
+
+# --- admin / diagnostics ---
+mtr
+nmap
+iftop
+nethogs
+iotop
+tcpdump
+smartmontools
+lm-sensors
+dnsutils

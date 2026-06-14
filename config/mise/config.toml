@@ -1,0 +1,11 @@
+# mise — global runtime versions (symlinked to ~/.config/mise/config.toml)
+# Per-project versions go in a project-local mise.toml / .tool-versions.
+# Install/update these with: mise install
+
+[tools]
+node = "22"        # matches your previously-active nodenv 22.x
+python = "3.11"    # matches your brew python@3.11
+
+[settings]
+# Reuse asdf-style .tool-versions and .nvmrc files if present in a project:
+idiomatic_version_file_enable_tools = ["node", "python"]

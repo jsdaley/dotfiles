@@ -1,0 +1,9 @@
+version: 2
+updates:
+  # Keep the CI workflow's actions (shellcheck, gitleaks, checkout) up to date.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: ci

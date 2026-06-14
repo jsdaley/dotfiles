@@ -1,0 +1,150 @@
+# Brewfile.core — shared across all machines (home + work)
+# Installed via: brew bundle --file brew/Brewfile.core
+# Profile-specific additions live in Brewfile.home / Brewfile.work.
+#
+# Curated from Jared's existing toolset + adoptions from Yanne's CLI arsenal.
+# Philosophy: modern (mostly Rust) replacements for core Unix tools, with the
+# originals kept available. Aliases are wired in zsh/ (see zsh/aliases.zsh).
+
+###############################################################################
+# Taps
+###############################################################################
+
+###############################################################################
+# Core / GNU utilities
+###############################################################################
+brew 'coreutils'        # GNU file/shell/text utils (g-prefixed)
+brew 'gnu-sed'          # GNU sed (gsed) — predictable -i, regex
+brew 'grep'             # GNU grep (ggrep)
+brew 'findutils'        # gfind/gxargs/glocate
+
+###############################################################################
+# Modern CLI — "full send" replacements (aliased over ls/cat/find/etc.)
+###############################################################################
+brew 'eza'              # ls replacement: icons, git status, tree
+brew 'bat'              # cat replacement: syntax highlight + paging
+brew 'fd'               # find replacement: sane syntax, fast
+brew 'ripgrep'          # rg: grep replacement, respects .gitignore
+brew 'ripgrep-all'      # rga: ripgrep across pdf/docx/zip/etc.
+brew 'sd'               # sed replacement for simple find/replace
+brew 'zoxide'           # cd replacement: frecency jumping (z)
+brew 'dust'             # du replacement: visual tree
+brew 'duf'              # df replacement: readable disk usage
+brew 'procs'            # ps replacement: human-readable, tree view
+brew 'btop'             # top/htop replacement: rich TUI
+brew 'htop'             # kept — familiar fallback
+brew 'tealdeer'         # tldr: example-first man pages (binary: tldr)
+brew 'hyperfine'        # CLI benchmarking
+brew 'tokei'            # count lines of code, fast
+brew 'ncdu'             # interactive disk-usage TUI (promoted from server profile)
+brew 'fastfetch'        # system info on demand (promoted from server profile)
+brew 'just'             # command runner — one entry point (see Justfile)
+
+###############################################################################
+# Shell & terminal experience
+###############################################################################
+brew 'atuin'            # searchable shell history (Ctrl-R), local-only
+brew 'direnv'           # per-directory env / auto runtime activation
+brew 'fzf'              # fuzzy finder (Ctrl-T / Ctrl-R / **<tab>)
+brew 'tmux'             # terminal multiplexer
+
+###############################################################################
+# Runtimes — unified via mise (replaces nodenv + manual python)
+###############################################################################
+brew 'mise'             # polyglot runtime manager: node/python/go/ruby/...
+
+###############################################################################
+# Git & code review
+###############################################################################
+brew 'git'
+brew 'gh'               # GitHub CLI (PRs, issues, gh auth)
+brew 'git-delta'        # syntax-highlighting diff pager (delta)
+brew 'difftastic'       # structural/syntax-aware diff (difft)
+brew 'lazygit'          # keyboard-driven git TUI
+brew 'tig'              # ncurses git history browser
+
+###############################################################################
+# JSON / data wrangling
+###############################################################################
+brew 'jq'               # JSON processor
+brew 'yq'               # YAML/XML/TOML processor (jq-like)
+brew 'fx'               # interactive JSON viewer
+brew 'gron'             # make JSON greppable
+brew 'jless'            # pager for JSON
+
+###############################################################################
+# Containers & Docker (both profiles)
+###############################################################################
+brew 'lazydocker'       # docker TUI (containers/images/logs)
+brew 'dive'             # inspect docker image layers
+brew 'ctop'             # top-like container metrics
+brew 'hadolint'         # Dockerfile linter
+brew 'trivy'            # vulnerability scanner (images/fs/repos)
+
+###############################################################################
+# Network & HTTP
+###############################################################################
+brew 'xh'               # friendly/fast HTTP client (httpie-like)
+brew 'mtr'              # traceroute + ping combined
+brew 'doggo'            # modern dig/DNS client
+brew 'nmap'             # port scanning
+brew 'iftop'            # per-interface bandwidth
+brew 'iperf'            # raw L4 bandwidth testing
+
+###############################################################################
+# Security / crypto
+###############################################################################
+brew 'gnupg'
+brew 'pinentry-mac'     # GPG pinentry on macOS
+brew 'mkcert'           # locally-trusted dev certs
+brew 'trufflehog'       # find leaked/verified secrets in git history & files
+brew 'gitleaks'         # fast secret scanner (pre-commit / CI)
+
+###############################################################################
+# Editors
+###############################################################################
+brew 'micro'            # modern nano-like CLI editor (your default)
+
+###############################################################################
+# Files, media & misc utilities (carried over from your setup)
+###############################################################################
+brew 'broot'            # directory tree navigator
+brew 'yazi'             # modern TUI file manager (replaces midnight-commander)
+brew 'pv'               # pipe progress meter
+brew 'wget'
+brew 'p7zip'
+brew 'yt-dlp'           # media downloader
+brew 'ffmpeg'           # media conversion (yt-dlp companion)
+brew 'wakeonlan'
+brew 'lftp'             # scriptable FTP/SFTP
+brew 'ocrmypdf'         # add OCR layer to PDFs
+brew 'poppler'          # pdf utilities (pdftotext, etc.)
+brew 'ddrescue'         # data recovery
+
+###############################################################################
+# GUI apps (common to all machines)
+# NOTE: several of these are already installed by direct download. brew does not
+# own them yet — on this machine, adopt with: brew install --cask --adopt <name>
+# (or leave as-is; these entries make a fresh machine reproducible).
+###############################################################################
+# Dev
+cask 'visual-studio-code'        # primary editor
+cask 'iterm2'                    # terminal
+cask 'orbstack'                  # Docker/Linux runtime (Docker Desktop replacement)
+cask 'bruno'                     # API client (your Postman alternative)
+cask 'tableplus'                 # database GUI
+cask 'cyberduck'                 # SFTP/cloud storage browser
+cask 'obsidian'                  # notes
+cask 'ollama'                    # local LLM runtime (used by llm-start)
+# Security / utility
+cask '1password'                 # password manager (app)
+cask '1password-cli'             # 1Password CLI (op)
+cask 'localsend'                 # cross-platform AirDrop alternative
+cask 'the-unarchiver'            # archive extraction
+cask 'wireshark-app'             # network protocol analyzer
+cask 'powershell'                # cross-platform PowerShell
+
+###############################################################################
+# Fonts (Nerd Font required for Powerlevel10k icons)
+###############################################################################
+cask 'font-meslo-lg-nerd-font'   # p10k's recommended font

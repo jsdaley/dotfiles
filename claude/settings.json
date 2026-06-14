@@ -1,0 +1,32 @@
+{
+  "extraKnownMarketplaces": {
+    "unifi-plugins": {
+      "source": {
+        "source": "github",
+        "repo": "sirkirby/unifi-mcp"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "unifi-network@unifi-plugins": true
+  },
+  "permissions": {
+    "deny": [
+      "Read(**/.env)",
+      "Read(**/.env.*)",
+      "Read(**/*.pem)",
+      "Read(**/*.key)",
+      "Read(**/*_rsa)",
+      "Read(**/*_ed25519)",
+      "Read(//Users/**/.ssh/**)",
+      "Read(//Users/**/.aws/**)",
+      "Read(//Users/**/.gnupg/**)",
+      "Read(**/.config/gh/hosts.yml)",
+      "Read(**/.gitconfig.local)",
+      "Read(**/.ssh/config.local)",
+      "Read(**/.localrc)",
+      "Read(**/secrets/**)",
+      "Read(**/.npmrc)"
+    ]
+  }
+}

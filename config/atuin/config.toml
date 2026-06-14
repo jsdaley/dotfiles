@@ -1,0 +1,17 @@
+# atuin — shell history (symlinked to ~/.config/atuin/config.toml)
+# Local-only: no account, no sync.
+
+auto_sync = false
+update_check = false
+
+## UI
+style = "compact"
+inline_height = 25
+show_preview = true
+
+## Search
+search_mode = "fuzzy"
+filter_mode = "global"          # search across all sessions by default
+
+## Safety: Enter puts the chosen command on the prompt to edit (does NOT run it).
+enter_accept = false
