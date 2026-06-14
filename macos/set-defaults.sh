@@ -18,16 +18,12 @@ defaults write NSGlobalDomain KeyRepeat -int 2             # fast key repeat
 defaults write NSGlobalDomain InitialKeyRepeat -int 15     # short delay before repeat
 defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false   # repeat, not accent popover
 defaults write NSGlobalDomain AppleKeyboardUIMode -int 3   # full keyboard access (Tab all controls)
-defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
 defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -bool false
-defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
-defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
 defaults write NSGlobalDomain NSAutomaticPeriodSubstitutionEnabled -bool false
+# NOTE: autocorrect + smart quotes/dashes are intentionally NOT touched — your
+# machine has them ON, and we don't override deliberate settings.
 
-# ── Trackpad ─────────────────────────────────────────────────────────────────
-defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
-defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+# (Tap-to-click intentionally left alone — you use physical click.)
 
 # ── Finder ───────────────────────────────────────────────────────────────────
 defaults write NSGlobalDomain AppleShowAllExtensions -bool true
@@ -37,7 +33,7 @@ defaults write com.apple.finder ShowStatusBar -bool true
 defaults write com.apple.finder _FXSortFoldersFirst -bool true
 defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"   # search current folder
 defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
-defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"   # list view
+defaults write com.apple.finder FXPreferredViewStyle -string "clmv"   # column view (your preference)
 chflags nohidden ~/Library 2>/dev/null || true
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true  # no .DS_Store on shares
 defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
@@ -46,13 +42,11 @@ defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 defaults write com.apple.dock autohide -bool true
 defaults write com.apple.dock autohide-time-modifier -float 0.15
 defaults write com.apple.dock show-recents -bool false
-defaults write com.apple.dock minimize-to-application -bool true
 defaults write com.apple.dock mru-spaces -bool false      # don't auto-rearrange Spaces
 defaults write com.apple.dock expose-animation-duration -float 0.12
 
-# ── Screenshots → ~/Screenshots, PNG, no shadow ──────────────────────────────
-mkdir -p "$HOME/Screenshots"
-defaults write com.apple.screencapture location -string "$HOME/Screenshots"
+# ── Screenshots → ~/Desktop, PNG, no shadow ──────────────────────────────────
+defaults write com.apple.screencapture location -string "$HOME/Desktop"
 defaults write com.apple.screencapture type -string "png"
 defaults write com.apple.screencapture disable-shadow -bool true
 
@@ -64,7 +58,7 @@ defaults write NSGlobalDomain PMPrintingExpandedStateForPrint2 -bool true
 defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false   # save to disk, not iCloud
 defaults write com.apple.NetworkBrowser BrowseAllInterfaces -bool true        # AirDrop over Ethernet
 defaults write com.apple.TextEdit RichText -int 0                             # TextEdit = plain text
-defaults write com.apple.LaunchServices LSQuarantine -bool false              # no "are you sure" for downloaded apps
+# NOTE: LSQuarantine left ON — keep the Gatekeeper "downloaded app" check (security).
 
 echo "Done. Restarting Finder/Dock/SystemUIServer…"
 for app in Finder Dock SystemUIServer; do killall "$app" >/dev/null 2>&1 || true; done
