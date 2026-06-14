@@ -29,7 +29,7 @@ cask 'utm'                   # QEMU-based VM manager
 # Retro emulation (verify tokens with `brew search` if any fail)
 ###############################################################################
 cask 'dosbox-staging-app'    # modern DOSBox fork (was 'dosbox-staging')
-cask 'retroarch'             # multi-system emulator frontend (Intel cask — needs Rosetta on Apple Silicon)
+cask 'retroarch-metal'       # multi-system emulator frontend (Metal renderer build; was 'retroarch')
 cask 'snes9x'                # SNES emulator
 # cask '86box'               # PC emulator — verify token before enabling
 

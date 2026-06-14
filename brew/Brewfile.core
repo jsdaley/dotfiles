@@ -47,6 +47,7 @@ brew 'atuin'            # searchable shell history (Ctrl-R), local-only
 brew 'direnv'           # per-directory env / auto runtime activation
 brew 'fzf'              # fuzzy finder (Ctrl-T / Ctrl-R / **<tab>)
 brew 'tmux'             # terminal multiplexer
+brew 'powershell'       # cross-platform PowerShell (now a formula, was a cask)
 
 ###############################################################################
 # Runtimes — unified via mise (replaces nodenv + manual python)
@@ -144,7 +145,6 @@ cask '1password-cli'             # 1Password CLI (op)
 cask 'localsend'                 # cross-platform AirDrop alternative
 cask 'the-unarchiver'            # archive extraction
 cask 'wireshark-app'             # network protocol analyzer
-cask 'powershell'                # cross-platform PowerShell
 
 ###############################################################################
 # Fonts (Nerd Font required for Powerlevel10k icons)
