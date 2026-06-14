@@ -54,3 +54,8 @@ source "$DOTFILES/zsh/tools.zsh"
 
 # ── Local, uncommitted overrides (secrets, machine-specific) ─────────────────
 [[ -f ~/.localrc ]] && source ~/.localrc
+
+# Start the first prompt with a clean exit status. Without this, the guard above
+# returns 1 when ~/.localrc is absent (and a sourced ~/.localrc could also end
+# non-zero), making p10k show a spurious "1 ✘" on a freshly opened terminal.
+true
