@@ -333,6 +333,18 @@ change** without reverting everything else.
   `python@3.14` (dependency of nmap/ocrmypdf/yt-dlp/pipx) + Apple `/usr/bin/python3`.
 - **Undo:** `brew install python@3.11`.
 
+### Cleanup sweep (old-settings audit)
+- **Home stale files removed:** `~/.Brewfile`, `~/.fzf.{zsh,bash}`, `~/.config/mc`,
+  `~/.nodenv` (~1 GB reclaimed — all superseded).
+- **Modernized macOS defaults:** `osx/` → `macos/`; rewrote `set-defaults.sh` from
+  the 2-line Holman stub into a curated power-user script (keyboard repeat, no
+  smart-quotes/autocorrect, Finder dotfiles/pathbar/list-view, Dock autohide,
+  screenshots→~/Screenshots, save-to-disk, etc.). Updated bootstrap + README + CI
+  ignore. Lints clean.
+- Repo confirmed free of the old convention (no *.symlink/Rakefile/vim/emacs/ack/tmux).
+- Not removed (your call, kept): `iterm/*.itermcolors`, stray untracked
+  `.claude/settings.local.json`, the merged `modernized-2026` branch.
+
 ## Still pending
 - Run `server/setup.sh` on each box (`just servers` once pushed/synced).
 - Terminal emulator (iTerm2 vs Ghostty) — deferred.

@@ -15,8 +15,8 @@ jobs:
       - uses: ludeeus/action-shellcheck@master
         with:
           severity: warning
-          # zsh files aren't shellcheck-able; bin/ and osx/ are inherited legacy.
-          ignore_paths: zsh bin osx
+          # zsh files aren't shellcheck-able; bin/ is inherited legacy.
+          ignore_paths: zsh bin
         env:
           SHELLCHECK_OPTS: -e SC1071 -e SC2088
 

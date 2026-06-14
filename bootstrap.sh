@@ -115,9 +115,9 @@ command -v atuin >/dev/null 2>&1 && atuin import auto || true
 
 # ── 10. macOS defaults (optional) ────────────────────────────────────────────
 step "macOS defaults"
-if [[ -f "$DOTFILES/osx/set-defaults.sh" ]]; then
-  read -r -p "Apply macOS defaults from osx/set-defaults.sh? [y/N] " yn
-  [[ "$yn" == [yY] ]] && bash "$DOTFILES/osx/set-defaults.sh" || echo "skipped."
+if [[ -f "$DOTFILES/macos/set-defaults.sh" ]]; then
+  read -r -p "Apply macOS defaults from macos/set-defaults.sh? [y/N] " yn
+  [[ "$yn" == [yY] ]] && bash "$DOTFILES/macos/set-defaults.sh" || echo "skipped."
 fi
 
 # ── 11. Login shell ──────────────────────────────────────────────────────────
