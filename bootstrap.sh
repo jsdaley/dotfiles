@@ -102,10 +102,15 @@ if command -v mise >/dev/null 2>&1; then
   mise ls
 fi
 
-# ── 8. Global npm CLIs (mise node) ──────────────────────────────────────────
-step "Global npm tools"
-if command -v npm >/dev/null 2>&1; then
-  npm install -g @anthropic-ai/claude-code || warn "claude-code global install failed (non-fatal)"
+# ── 8. Claude Code CLI (native installer — independent of mise/node) ─────────
+# Installed via the official script so it lives in ~/.local/bin, NOT as an npm
+# global under mise node. npm globals don't survive a node reinstall/upgrade
+# (that's how a prior claude install got wiped); the native installer doesn't.
+step "Claude Code CLI"
+if command -v claude >/dev/null 2>&1; then
+  echo "  claude already installed: $(claude --version 2>/dev/null)"
+else
+  curl -fsSL https://claude.ai/install.sh | bash || warn "claude install failed (non-fatal)"
 fi
 
 # ── 9. Misc tool init ────────────────────────────────────────────────────────

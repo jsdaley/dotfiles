@@ -87,8 +87,10 @@ change** without reverting everything else.
 
 ### C9 — mise runtime migration ✅
 - `mise install` → node 22.22.3, python 3.11.15 (from `config/mise/config.toml`).
-- Reinstalled `@anthropic-ai/claude-code` under mise node (was under nodenv);
-  `claude` now resolves to mise node (v2.1.177).
+- `claude` CLI: now installed via the **native installer** (`~/.local/bin/claude`),
+  NOT as an npm global. The npm-under-nodenv/mise install kept getting wiped on
+  node teardown/reinstall (deleting `~/.nodenv` took its globals with it); the
+  native installer is node-independent. bootstrap.sh step 8 reflects this.
 - **Undo:** re-init nodenv in `zsh/tools.zsh` (fallback branch already present);
   `mise uninstall node python` if desired.
 
