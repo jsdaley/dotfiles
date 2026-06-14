@@ -6,7 +6,18 @@
 
 # ── fzf: fuzzy finder (Ctrl-T files, Alt-C cd, ** completion) ────────────────
 if command -v fzf >/dev/null 2>&1; then
-  source <(fzf --zsh) 2>/dev/null
+  # fzf >= 0.48 provides `--zsh`; older distro builds (e.g. Ubuntu 24.04's 0.44)
+  # ship integration files instead.
+  if fzf --zsh >/dev/null 2>&1; then
+    source <(fzf --zsh)
+  else
+    for _f in /usr/share/doc/fzf/examples/key-bindings.zsh /usr/share/doc/fzf/examples/completion.zsh \
+              /usr/share/fzf/key-bindings.zsh /usr/share/fzf/completion.zsh \
+              "$(brew --prefix 2>/dev/null)/opt/fzf/shell/key-bindings.zsh"; do
+      [[ -r $_f ]] && source "$_f"
+    done
+    unset _f
+  fi
   export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border --info=inline'
   # Use fd for fzf's file/dir walks if available
   if command -v fd >/dev/null 2>&1; then
@@ -17,12 +28,6 @@ if command -v fzf >/dev/null 2>&1; then
   # Preview with bat / eza
   command -v bat >/dev/null 2>&1 && export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always {} 2>/dev/null || cat {}'"
   command -v eza >/dev/null 2>&1 && export FZF_ALT_C_OPTS="--preview 'eza --tree --level=2 --color=always {}'"
-fi
-
-# ── zoxide: smarter cd. `z foo` jumps; `zi` interactive. --cmd cd shadows cd. ─
-# `builtin cd` reaches the original; `cdi` is the interactive picker.
-if command -v zoxide >/dev/null 2>&1; then
-  eval "$(zoxide init zsh --cmd cd)"
 fi
 
 # ── atuin: searchable shell history on Ctrl-R (keep up-arrow native) ─────────
@@ -48,3 +53,12 @@ export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=63'
 
 # ── iTerm2 shell integration ────────────────────────────────────────────────
 [[ -e ~/.iterm2_shell_integration.zsh ]] && source ~/.iterm2_shell_integration.zsh
+
+# ── zoxide LAST — smarter cd (`z foo` jumps, `cdi` picks; `builtin cd` is plain).
+#    Initialized after mise/direnv/atuin so its chpwd hook is last. _ZO_DOCTOR=0
+#    silences zoxide's "not last" heuristic, which false-positives because p10k
+#    re-juggles hooks at first prompt — zoxide still tracks correctly. ──────────
+if command -v zoxide >/dev/null 2>&1; then
+  export _ZO_DOCTOR=0
+  eval "$(zoxide init zsh --cmd cd)"
+fi
