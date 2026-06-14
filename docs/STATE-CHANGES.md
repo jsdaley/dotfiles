@@ -173,8 +173,8 @@ change** without reverting everything else.
 
 ### P1-E — Templatize git identity (machine-specific) ✅
 - **Audited tracked configs AND full git history** for secrets/PII: clean — no
-  tokens/keys/IPs, no hardcoded `/Users/jsdaley`, real email
-  (commerce@jareddaley.com) never committed in any blob. Only identity data in
+  tokens/keys/IPs, no hardcoded user paths, and the real personal email was
+  never committed in any blob. Only identity data in
   history is the GitHub **noreply** email + name (public-safe, already the author
   on pushed commits) → no history rewrite warranted. Old upstream-author emails
   (shanejonas/mjrusso) are pre-existing fork lineage, left intact.
@@ -200,7 +200,7 @@ change** without reverting everything else.
 - **VS Code:** `vscode/{settings.json,keybindings.json,extensions.txt}`,
   symlinked into `~/Library/Application Support/Code/User/`. Scrubbed before
   commit: removed stale `sync.*` keys (2017 Settings-Sync cruft incl. a gist id);
-  de-hardcoded `/Users/jsdaley/workspace/battlefy` → `$home/workspace/battlefy`.
+  de-hardcoded an absolute workspace path → `$home/workspace`.
   33 extensions captured; bootstrap installs them via `code --install-extension`.
 - `bootstrap.sh` extended with an "Editor configs" step (mac + Linux-desktop VS
   Code paths). Secret scan of all four files: clean.
@@ -210,8 +210,8 @@ change** without reverting everything else.
   real file, re-run `bootstrap.sh` to relink.
 
 ### P1-H — Generalize VSCode path + fix global gitignore ✅
-- `vscode/settings.json`: `$home/workspace/battlefy` → `$home/workspace`
-  (battlefy = former employer; this is the home laptop).
+- `vscode/settings.json`: generalized a hardcoded `$home/workspace/<dir>` project
+  path down to `$home/workspace`.
 - **Fixed dead global gitignore:** `core.excludesfile` was unset, so git used
   `~/.config/git/ignore` and the repo's `~/.gitexcludes` did nothing. Set
   `core.excludesfile = ~/.gitexcludes` in the committed gitconfig and modernized

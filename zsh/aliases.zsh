@@ -17,8 +17,7 @@ fi
 # ── cat → bat (pipe-safe: bat auto-plains when output isn't a TTY) ───────────
 if command -v bat >/dev/null 2>&1; then
   alias cat='bat --paging=never'
-  alias catp='bat'                 # cat with a pager
-  export BAT_THEME='ansi'
+  alias catp='bat'                 # cat with a pager (theme/style: config/bat/config)
   export MANPAGER="sh -c 'col -bx | bat -l man -p'"
   export MANROFFOPT='-c'
 fi

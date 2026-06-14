@@ -16,9 +16,9 @@ section, make it [Keybinding & alias cheat sheet](#keybinding--alias-cheat-sheet
 - [Files, media & misc](#files-media--misc)
 - [Home profile](#home-profile)
 - [Work profile](#work-profile)
+- [Server profile](#server-profile)
 - [Keybinding & alias cheat sheet](#keybinding--alias-cheat-sheet)
 - [How-to](#how-to)
-- [Send to Yanne](#send-to-yanne)
 
 ---
 
@@ -200,11 +200,11 @@ Runtime is **OrbStack** (the `docker` CLI talks to it). Tools:
 
 ## Home profile
 
-Virtualization (`qemu`, `libvirt`, `gtk-vnc`, `spice-gtk`; GUIs UTM + VMware
-Fusion), retro/low-level (`cc65`, `wimlib`; emulators DOSBox Staging, RetroArch,
-Snes9x), media (Audacity, IINA, VLC, Plex/Plexamp, Downie, Shotcut, XLD,
-MuseScore), games (Steam, GOG Galaxy), disk tools (Carbon Copy Cloner,
-balenaEtcher, GrandPerspective, KeepingYouAwake), and Pascal/Lazarus.
+Virtualization (`qemu`, `libvirt`, `gtk-vnc`, `spice-gtk`; GUI UTM),
+retro/low-level (`cc65`, `wimlib`; emulators DOSBox Staging, RetroArch, Snes9x),
+media (Audacity, IINA, VLC, Plex/Plexamp, Downie, Shotcut, MuseScore), games
+(Steam, GOG Galaxy), disk tools (Carbon Copy Cloner, balenaEtcher,
+GrandPerspective, KeepingYouAwake), and Pascal/Lazarus.
 
 > `virt-viewer` is intentionally **not** in the Brewfile — it only ships in an
 > untrusted third-party tap. Install manually if ever needed (see `Brewfile.home`).
@@ -221,6 +221,19 @@ is intentionally excluded — add `k9s`/`helm` only if a machine truly needs it.
 
 The work machine has drifted; run the audit in
 [`work-machine-audit.md`](work-machine-audit.md) there to reconcile it.
+
+---
+
+## Server profile
+
+Headless Linux (Debian/Ubuntu), provisioned by `server/setup.sh` (apt, not brew).
+Reuses the **same** zsh + p10k + aliases as macOS via `links.conf`; Mac-only tools
+no-op. Adds `server/packages.apt` (modern CLI + admin/diagnostics: mtr, nmap,
+iftop, nethogs, iotop, tcpdump, smartmontools, lm-sensors, ncdu…) and admin
+aliases in `zsh/profile.server.zsh` (`dps`, `dl`, `dcl`, `ports`, `j`, `sc`,
+Proxmox `vms`/`cts`) plus `fastfetch` on login. Debian's `bat`/`fd` renames are
+shimmed back to their real names. Provision all hosts with `just servers` (host
+list in gitignored `~/.config/dotfiles/servers`). See [`server/`](../server/).
 
 ---
 

@@ -35,14 +35,18 @@ The **work machine has drifted heavily** from this setup over time. Your job:
 
 ## 1. Background: what this repo is
 
-- Inherited Holman-style dotfiles (`*.symlink` + an old Ruby `Rakefile`), being
-  modernized. Originally Zach Holman → a coworker → Jared.
-- Symlink convention: files named `*.symlink` get linked into `$HOME` as
-  `.<name>` (e.g. `zsh/zshrc.symlink` → `~/.zshrc`).
-- A new `bootstrap.sh` (idempotent new-machine installer) and a modular `zsh/`
-  config are part of the modernization. Read these in the repo if present.
-- **First action: `cd ~/workspace/dotfiles && git fetch && git status`.** Pull
-  the latest so you're working against the current core/home/work Brewfiles.
+- Originally Holman-style dotfiles (Zach Holman → a coworker → Jared), now
+  modernized — the old `*.symlink` convention and Ruby `Rakefile` are **gone**.
+- **Symlinks are declarative now:** `links.conf` (`source | target | when`) is the
+  single source of truth, applied by `link.sh` (OS-aware: all/macos/linux).
+- **Profiles are first-class & extensible:** `home`, `work`, `server` (Linux), set
+  in `~/.config/dotfiles/profile`. Each = a `Brewfile.<name>` (or `server/`
+  apt set) + a `zsh/profile.<name>.zsh`. Installers: `bootstrap.sh` (macOS),
+  `server/setup.sh` (Linux). `just` (Justfile) is the cross-machine entry point.
+- Modular `zsh/` config (zshrc + path/aliases/tools/functions/nudges/profile.*),
+  shared by macOS and Linux (Mac-only bits are guarded).
+- **First action: `cd ~/workspace/dotfiles && git fetch && git status`.** Pull the
+  latest so you're working against the current Brewfiles + `links.conf`.
   If the repo isn't here, clone it from Jared's GitHub first (ask him for the URL).
 
 ---
@@ -186,21 +190,24 @@ Claude session. Be specific — names + rationale.
 Read the real files in `brew/` first. This snapshot is only a backup reference.
 
 - **core:** GNU utils; modern CLI (eza, bat, fd, ripgrep, ripgrep-all, sd,
-  zoxide, dust, duf, procs, btop, htop, tealdeer, hyperfine, tokei); shell
-  (atuin, direnv, fzf, tmux); **mise**; git (gh, git-delta, difftastic, lazygit,
-  tig); data (jq, yq, fx, gron, jless); containers (lazydocker, dive, ctop,
-  hadolint, trivy); net (xh, mtr, doggo, nmap, iftop, iperf); security (gnupg,
-  pinentry-mac, mkcert); micro; files/media (broot, yazi, pv, wget,
-  p7zip, yt-dlp, ffmpeg, wakeonlan, lftp, ocrmypdf, poppler, ddrescue); casks
-  (visual-studio-code, iterm2, orbstack, bruno, tableplus, cyberduck, obsidian,
-  ollama, 1password(-cli), localsend, the-unarchiver, wireshark-app, powershell,
+  zoxide, dust, duf, procs, btop, htop, ncdu, fastfetch, tealdeer, hyperfine,
+  tokei); shell (atuin, direnv, fzf, tmux); **mise**; **just**; git (gh,
+  git-delta, difftastic, lazygit, tig); data (jq, yq, fx, gron, jless);
+  containers (lazydocker, dive, ctop, hadolint, trivy); net (xh, mtr, doggo,
+  nmap, iftop, iperf); security (gnupg, pinentry-mac, mkcert, **trufflehog,
+  gitleaks**); micro; files/media (broot, yazi, pv, wget, p7zip, yt-dlp, ffmpeg,
+  wakeonlan, lftp, ocrmypdf, poppler, ddrescue); casks (visual-studio-code,
+  iterm2, orbstack, bruno, tableplus, cyberduck, obsidian, ollama,
+  1password(-cli), localsend, the-unarchiver, wireshark-app, powershell,
   font-meslo-lg-nerd-font).
-- **home:** qemu/libvirt/spice/virt-viewer/gtk-vnc, cc65, wimlib; casks: utm,
-  vmware-fusion, dosbox-staging, retroarch, snes9x, audacity, iina, vlc, plex,
-  plexamp, downie, shotcut, xld, musescore, steam, gog-galaxy,
-  carbon-copy-cloner, balenaetcher, grandperspective, keepingyouawake, fpc-laz.
+- **home:** qemu/libvirt/spice-gtk/gtk-vnc, cc65, wimlib; casks: utm,
+  dosbox-staging, retroarch, snes9x, audacity, iina, vlc, plex, plexamp, downie,
+  shotcut, musescore, steam, gog-galaxy, carbon-copy-cloner, balenaetcher,
+  grandperspective, keepingyouawake, openmtp, fpc-laz.
 - **work:** awscli, granted, aws-sso-util, chamber, awslogs, opentofu,
   terragrunt, ansible, skopeo, crane; casks: session-manager-plugin, tunnelblick.
   (Kubernetes intentionally excluded — re-add k9s/helm only if this machine
   actually uses it.)
+- **server (Linux/apt, not brew):** see `server/packages.apt` — modern CLI +
+  general + admin/diagnostics; zsh/p10k identical to macOS via `links.conf`.
 ```

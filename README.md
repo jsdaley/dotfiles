@@ -1,27 +1,30 @@
 # Jared's dotfiles
 
-Personal macOS (Apple Silicon) dotfiles — a modern zsh + Powerlevel10k setup with
-a curated, mostly-Rust CLI toolchain and a **two-profile** package system
-(home / work) over a shared core.
+Cross-platform personal dotfiles — **macOS** (Apple Silicon) and **headless
+Linux servers** (Debian/Ubuntu) — sharing one modern zsh + Powerlevel10k setup,
+a curated mostly-Rust CLI toolchain, and a **profile** system (`home` / `work` /
+`server`, extensible) over a shared core.
 
-> Lineage: forked long ago from a Holman-style setup (the `*.symlink` convention).
-> Modernized in 2026 — see [`docs/GUIDE.md`](docs/GUIDE.md) for the full tour and
-> the rationale behind every tool.
+> Lineage: forked long ago from a Holman-style setup. Modernized in 2026 — see
+> [`docs/GUIDE.md`](docs/GUIDE.md) for the full tour and the rationale behind
+> every tool, and [`docs/SECURITY.md`](docs/SECURITY.md) for the security posture.
 
-## Quick start (new machine)
+## Quick start
 
+**macOS:**
 ```bash
 git clone https://github.com/jsdaley/dotfiles.git ~/workspace/dotfiles
 cd ~/workspace/dotfiles
-./bootstrap.sh            # asks home or work; idempotent, safe to re-run
+./bootstrap.sh            # asks the profile; idempotent, safe to re-run
 exec zsh                  # or open a new terminal
 ```
-
 `bootstrap.sh` installs Xcode CLT + Homebrew, runs `brew bundle` for the core +
-chosen profile, sets up oh-my-zsh / Powerlevel10k / plugins, symlinks the
-dotfiles, provisions runtimes via `mise`, and installs global npm CLIs. Anything
-needing admin (Homebrew install, some casks, changing your login shell) pauses
-and tells you exactly what to run.
+chosen profile, sets up oh-my-zsh / Powerlevel10k / plugins, symlinks the dotfiles
+(`link.sh`), provisions runtimes via `mise`, and installs global npm CLIs.
+Privileged steps pause and tell you exactly what to run.
+
+**Linux server:** copy the repo to the box and run `server/setup.sh` (or
+`just servers` from the Mac) — see [`server/`](server/).
 
 ## Profiles
 

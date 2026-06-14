@@ -25,7 +25,7 @@ paranoid."
 addresses risk #1: the agent uses dummy placeholders (`__anthropic_api_key__`) and
 a self-hosted HTTPS proxy swaps in real credentials only at the outbound API call,
 so the agent never holds a real secret.
-- **Deploy self-hosted** (Docker on Colossus/Cerebro) — it's a TLS-intercepting
+- **Deploy self-hosted** (Docker on a server you control) — it's a TLS-intercepting
   MITM proxy, so only run an instance you control. It's in *preview* — pin a version.
 - **Client wiring** (small): agents route via `HTTPS_PROXY`; set `AGENT_VAULT_ADDR`,
   `AGENT_VAULT_VAULT`, and `AGENT_VAULT_TOKEN` (the token is secret → `~/.localrc`).

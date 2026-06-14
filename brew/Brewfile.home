@@ -24,8 +24,6 @@ brew 'wimlib'                # Windows imaging (.wim) tooling
 # Virtualization (GUI)
 ###############################################################################
 cask 'utm'                   # QEMU-based VM manager
-# vmware-fusion: cask DISABLED by Homebrew (2025-06-23 — requires authenticated
-# download). Install/update manually from Broadcom; keep the existing app as-is.
 
 ###############################################################################
 # Retro emulation (verify tokens with `brew search` if any fail)
@@ -45,7 +43,6 @@ cask 'plex'                  # media server
 cask 'plexamp'               # Plex music player
 cask 'downie'                # video downloader
 cask 'shotcut'               # video editor
-cask 'xld'                   # lossless audio decoder/converter
 cask 'musescore'             # music notation
 
 ###############################################################################
@@ -67,9 +64,3 @@ cask 'openmtp'               # native Android file transfer (replaces Google's I
 # Pascal / Lazarus (kept from your setup)
 ###############################################################################
 cask 'fpc-laz'               # Free Pascal compiler for Lazarus
-# fpc-src-laz: deprecated (fails macOS Gatekeeper; pkg incompatible with current
-# macOS) and slated to be disabled 2026-09-01. Keep the existing install if you
-# need Pascal sources; do not reinstall via brew.
-
-# NOTE: 'xld' installed but is also deprecated (Gatekeeper) — will be disabled
-# 2026-09-01. Consider a maintained alternative before then.

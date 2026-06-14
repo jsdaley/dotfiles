@@ -26,7 +26,7 @@ alias dcu='docker compose up -d'
 alias dcd='docker compose down'
 alias dcl='docker compose logs -f --tail=100'
 
-# ── Proxmox (only if present — Cerebro) ──────────────────────────────────────
+# ── Proxmox (only if present) ────────────────────────────────────────────────
 command -v qm  >/dev/null 2>&1 && alias vms='qm list'
 command -v pct >/dev/null 2>&1 && alias cts='pct list'
 

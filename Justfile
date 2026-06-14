@@ -30,9 +30,11 @@ server host:
     rsync -a --exclude='.git' --exclude='backups/' ./ {{host}}:~/dotfiles/
     ssh -t {{host}} 'bash ~/dotfiles/server/setup.sh'
 
-# Provision all known servers
+# Provision all servers listed in ~/.config/dotfiles/servers (one host per line)
 servers:
-    for h in cerebro colossus vulcan; do just server "$h"; done
+    @f="${DOTFILES_SERVERS:-$HOME/.config/dotfiles/servers}"; \
+     [ -f "$f" ] || { echo "create $f (one ssh host per line)"; exit 1; }; \
+     while read -r h; do [ -n "$h" ] && just server "$h"; done < "$f"
 
 # Audit Homebrew: anything installed but not in the Brewfiles
 brew-orphans:

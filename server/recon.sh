@@ -65,4 +65,4 @@ sec "END"
 } > "$OUT" 2>&1
 
 echo "Done. Wrote: $OUT"
-echo "Send that file back. (Run on Cerebro, Colossus, and Vulcan.)"
+echo "Send that file back. (Run on each server you want provisioned.)"
