@@ -124,10 +124,22 @@ For **each global npm/pnpm/cargo/pipx/go tool found**, classify it:
 - Is it a **project dependency accidentally installed globally** (leave alone)?
 - Is there a **brew formula that supersedes it** (prefer brew for reproducibility)?
 
-> Note: global npm tools are tied to a specific node install. Under the new
-> `mise` setup, the canonical list of global npm CLIs should be captured so the
-> `bootstrap.sh` can reinstall them. On the home machine the only real one is
-> `@anthropic-ai/claude-code`. Identify the work machine's equivalents.
+> ⚠️ **Migration-safety lesson from the home machine — do NOT repeat it.** When
+> the home box migrated nodenv → mise, `~/.nodenv` was deleted and its global npm
+> packages went with it (including `@anthropic-ai/claude-code`) — and the list had
+> **not been saved**, so it was lost permanently. This machine has *far more* node
+> globals. Therefore:
+> - **Save every list above to a file** before touching any runtime, e.g.
+>   `{ for v in $(nodenv versions --bare); do echo "== $v =="; NODENV_VERSION=$v nodenv exec npm ls -g --depth=0; done; pnpm ls -g --depth=0; } > ~/Desktop/work-node-globals.txt`
+>   — treat it as the recovery record.
+> - **Do NOT delete `~/.nodenv`** until every global is captured AND re-homed.
+> - **Claude Code is now installed via the native installer, not npm:**
+>   `curl -fsSL https://claude.ai/install.sh | bash` (lands in `~/.local/bin`,
+>   node-independent). If this machine has `@anthropic-ai/claude-code` as an npm
+>   global, replace it that way — npm globals under mise/nodenv do **not** survive
+>   a node reinstall/teardown (that's exactly how the home install got wiped).
+> - For other durable CLIs, prefer a **brew formula or the tool's own installer**
+>   over an npm global so they survive future node changes.
 
 ---
 
@@ -163,6 +175,15 @@ its shell/editor/runtime choices with §2.
   `git switch -c work-machine-audit`. Commit `Brewfile.work` edits there and push
   so the home session can pull. Do **not** edit core/home (propose instead).
 - **Don't break the working setup:** nodenv/python stay until mise is proven.
+  **Never delete `~/.nodenv` until its global npm packages are saved to a file and
+  re-homed** — the home machine lost its globals (incl. claude-code) exactly this way.
+- **Stale Homebrew gotcha:** if `brew --version` is old, run `brew update` (and
+  `brew cleanup --prune=all`) before any install phase. An outdated brew throws
+  spurious "No Cask with this name exists" / `.incomplete` cache errors that look
+  like real failures but aren't.
+- **Verify every token with `brew info <name>` before proposing it** — formulae/casks
+  drift. Recent examples: `powershell` is now a **formula** (was a cask),
+  `ollama`→`ollama-app`, `retroarch`→`retroarch-metal`, `dosbox-staging`→`dosbox-staging-app`.
 
 ---
 
@@ -202,17 +223,17 @@ Read the real files in `brew/` first. This snapshot is only a backup reference.
 
 - **core:** GNU utils; modern CLI (eza, bat, fd, ripgrep, ripgrep-all, sd,
   zoxide, dust, duf, procs, btop, htop, ncdu, fastfetch, tealdeer, hyperfine,
-  tokei); shell (atuin, direnv, fzf, tmux); **mise**; **just**; git (gh,
+  tokei); shell (atuin, direnv, fzf, tmux, powershell); **mise**; **just**; git (gh,
   git-delta, difftastic, lazygit, tig); data (jq, yq, fx, gron, jless);
   containers (lazydocker, dive, ctop, hadolint, trivy); net (xh, mtr, doggo,
   nmap, iftop, iperf); security (gnupg, pinentry-mac, mkcert, **trufflehog,
   gitleaks**); micro; files/media (broot, yazi, pv, wget, p7zip, yt-dlp, ffmpeg,
   wakeonlan, lftp, ocrmypdf, poppler, ddrescue); casks (visual-studio-code,
-  iterm2, orbstack, bruno, tableplus, cyberduck, obsidian, ollama,
-  1password(-cli), localsend, the-unarchiver, wireshark-app, powershell,
+  ghostty, iterm2, orbstack, bruno, tableplus, cyberduck, obsidian, ollama-app,
+  1password(-cli), localsend, the-unarchiver, wireshark-app,
   font-meslo-lg-nerd-font).
 - **home:** qemu/libvirt/spice-gtk/gtk-vnc, cc65, wimlib; casks: utm,
-  dosbox-staging, retroarch, snes9x, audacity, iina, vlc, plex, plexamp, downie,
+  dosbox-staging-app, retroarch-metal, snes9x, audacity, iina, vlc, plex, plexamp, downie,
   shotcut, musescore, steam, gog-galaxy, carbon-copy-cloner, balenaetcher,
   grandperspective, keepingyouawake, openmtp, fpc-laz.
 - **work:** awscli, granted, aws-sso-util, chamber, awslogs, opentofu,
