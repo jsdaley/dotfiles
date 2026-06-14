@@ -1,0 +1,32 @@
+# Yazi keymap — Mac-friendly, arrow-driven navigation.
+# `prepend_keymap` inserts BEFORE the defaults, so these win on conflict while
+# the stock (vim-ish) keys still work underneath if you ever want them.
+# Mac note: Fn+Arrows send Home/End/PageUp/PageDown; ⌘ is intentionally unused
+# because terminals don't forward it to TUI apps.
+# Docs: https://yazi-rs.github.io/docs/configuration/keymap/
+
+[mgr]
+prepend_keymap = [
+  # ── Move through the file list ──────────────────────────────────────────────
+  { on = "<Up>",        run = "arrow -1",   desc = "Move up" },
+  { on = "<Down>",      run = "arrow 1",    desc = "Move down" },
+  { on = "<Home>",      run = "arrow top",  desc = "Jump to top (Fn+Left)" },
+  { on = "<End>",       run = "arrow bot",  desc = "Jump to bottom (Fn+Right)" },
+  { on = "<PageUp>",    run = "arrow -50%", desc = "Half page up (Fn+Up)" },
+  { on = "<PageDown>",  run = "arrow 50%",  desc = "Half page down (Fn+Down)" },
+
+  # ── Move between directories (Finder column-view feel) ──────────────────────
+  { on = "<Right>",     run = "enter",      desc = "Open the highlighted directory" },
+  { on = "<Left>",      run = "leave",      desc = "Go to the parent directory" },
+  { on = "<Backspace>", run = "leave",      desc = "Go to the parent directory" },
+  { on = "<Enter>",     run = "open",       desc = "Open file / enter directory" },
+
+  # ── Selection ───────────────────────────────────────────────────────────────
+  { on = "<Space>",     run = [ "toggle", "arrow 1" ], desc = "Toggle selection, then move down" },
+  { on = "<C-a>",       run = "toggle_all --state=on", desc = "Select all" },
+  { on = "<Esc>",       run = "escape",     desc = "Cancel find / clear selection" },
+
+  # ── Files ───────────────────────────────────────────────────────────────────
+  { on = "<Delete>",    run = "remove",            desc = "Move to trash (Fn+Backspace)" },
+  { on = "<S-Delete>",  run = "remove --permanently", desc = "Delete permanently" },
+]

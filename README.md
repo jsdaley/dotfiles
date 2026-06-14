@@ -63,7 +63,7 @@ zsh/
   p10k.zsh                Powerlevel10k prompt (→ ~/.p10k.zsh)
 git/gitconfig, git/gitexcludes   git config (delta, aliases) + global ignore
 ssh/config                shared SSH options (+ Include ~/.ssh/config.local)
-config/                   XDG configs → ~/.config (atuin, mise, micro)
+config/                   XDG configs → ~/.config (atuin, mise, micro, ripgrep, bat, yazi)
 claude/ , vscode/         macOS GUI app settings
 server/                   headless-Linux provisioning (recon.sh, packages.apt, setup.sh)
 bin/                      helper scripts + custom git subcommands (on PATH)
