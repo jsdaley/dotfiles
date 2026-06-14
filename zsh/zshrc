@@ -1,9 +1,8 @@
 # ~/.zshrc  (symlinked from dotfiles/zsh/zshrc via links.conf)
 # Modular config. Orchestrator only — real settings live in zsh/*.zsh modules.
 
-# Allow intentional login output (e.g. fastfetch on servers) without p10k's
-# instant-prompt warning. Must be set BEFORE the instant-prompt block below.
-typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+# (INSTANT_PROMPT=quiet is set in ~/.p10k.zsh so the server fastfetch banner
+#  doesn't trigger the instant-prompt warning.)
 
 # ── Powerlevel10k instant prompt (must stay near the very top) ───────────────
 # Initialization code that may require console input (passwords, [y/n], etc.)
