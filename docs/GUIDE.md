@@ -34,7 +34,7 @@ section, make it [Keybinding & alias cheat sheet](#keybinding--alias-cheat-sheet
    a profile (`home`/`work`/`server`, and the set is extensible). Symlinks are
    declared once in `links.conf`.
 4. **Keep fallbacks.** Familiar/best-practice tools stay even when a fancier one
-   exists (e.g. `htop` alongside `btop`, brew `python@3.11` alongside mise).
+   exists (e.g. `htop` alongside `btop`).
 5. **Reproducible & reversible.** Everything is a committed file; changes are
    logged in [`STATE-CHANGES.md`](STATE-CHANGES.md); replaced files are backed up.
 
@@ -142,15 +142,17 @@ replacement instead of failing (`zsh/nudges.zsh`). Force the original with
 `mise` replaced `nodenv` + manual `python@3.11`. One tool manages all language
 runtimes and auto-switches per directory.
 
-- Global versions: `config/mise/config.toml` → node 22, python 3.11.
+- Global versions: `config/mise/config.toml` → node 24, python 3.14.
 - Per-project: drop a `mise.toml` (or use existing `.nvmrc`/`.tool-versions`).
 - Commands: `mise use -g go@latest` (add a runtime), `mise install`, `mise ls`,
   `mise exec node@20 -- node app.js`.
 - `direnv` complements it: an `.envrc` per project for env vars/secrets
   (`direnv allow` to trust it).
-- Fallback: brew `python@3.11` is intentionally kept as a system-level Python
-  independent of mise. Old `~/.nodenv` is dormant and can be deleted
-  (`rm -rf ~/.nodenv`) to reclaim space.
+- mise is the source of truth for Python: the redundant brew `python@3.11` was
+  removed. Two non-mise Pythons remain by necessity — brew `python@3.14` (a
+  dependency of nmap/ocrmypdf/yt-dlp/pipx/…) and the OS's `/usr/bin/python3`
+  (Apple); neither is on your `PATH` ahead of mise. Old `~/.nodenv` is dormant
+  and can be deleted (`rm -rf ~/.nodenv`).
 
 ---
 

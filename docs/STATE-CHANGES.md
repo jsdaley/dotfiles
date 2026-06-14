@@ -322,6 +322,17 @@ change** without reverting everything else.
   (Infisical credential broker) evaluated & documented for later self-hosted
   deploy; 1Password `op run` noted for runtime secrets; SSH commit signing deferred.
 
+### Fixes — servers rollout + Python consolidation
+- p10k: `INSTANT_PROMPT=quiet` (server fastfetch banner) + `fastfetch --pipe false`
+  (keep color); figlet hostname banner in the shared fastfetch base (seeded if absent).
+- zoxide: init last + `_ZO_DOCTOR=0` (p10k re-juggles hooks → false-positive warning).
+- fzf: version-aware init (`--zsh` on ≥0.48, distro files on Ubuntu 24.04's 0.44).
+- bat: `--map-syntax *.jsonc/*.json5 → JSON` (older bat 0.24 lacks the mapping).
+- Python: removed redundant brew `python@3.11` (nothing depended on it; pulled
+  orphan `unbound` with it). mise (python 3.14) is the source of truth. Kept brew
+  `python@3.14` (dependency of nmap/ocrmypdf/yt-dlp/pipx) + Apple `/usr/bin/python3`.
+- **Undo:** `brew install python@3.11`.
+
 ## Still pending
 - Run `server/setup.sh` on each box (`just servers` once pushed/synced).
 - Terminal emulator (iTerm2 vs Ghostty) — deferred.

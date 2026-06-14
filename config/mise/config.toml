@@ -3,8 +3,8 @@
 # Install/update these with: mise install
 
 [tools]
-node = "22"        # matches your previously-active nodenv 22.x
-python = "3.11"    # matches your brew python@3.11
+node = "24"
+python = "3.14"    # mise is the source of truth for Python (brew python@3.11 removed)
 
 [settings]
 # Reuse asdf-style .tool-versions and .nvmrc files if present in a project:
