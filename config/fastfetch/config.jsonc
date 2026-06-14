@@ -1,0 +1,36 @@
+{
+    "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+    "//": "Shared base dashboard for servers. setup.sh seeds this to ~/.config/fastfetch/config.jsonc only if the box has no config yet — so machine-specific dashboards (Proxmox/Plex/RAID/GPU panels) are never clobbered.",
+    "logo": null,
+    "display": {
+        "separator": " ",
+        "key": { "width": 15 },
+        "percent": { "type": ["num", "num-color"] }
+    },
+    "modules": [
+        "break",
+        { "type": "title", "format": "{user-name-colored}{at-symbol-colored}{host-name-colored}" },
+        { "type": "custom", "format": "┌───────────────────────────── System ─────────────────────────────┐" },
+        { "type": "os",       "key": "│ OS",     "keyColor": "green", "format": "{pretty-name} {arch}" },
+        { "type": "kernel",   "key": "│ Kernel", "keyColor": "green" },
+        { "type": "host",     "key": "│ Host",   "keyColor": "green", "format": "{name} ({vendor})" },
+        { "type": "uptime",   "key": "│ Uptime", "keyColor": "green" },
+        { "type": "packages", "key": "│ Pkgs",   "keyColor": "green", "format": "{dpkg} (dpkg){?snap}, {snap} (snap){?}" },
+        { "type": "custom", "format": "└──────────────────────────────────────────────────────────────────┘" },
+        { "type": "custom", "format": "┌──────────────────────────── Hardware ────────────────────────────┐" },
+        { "type": "cpu",    "key": "│ CPU",    "keyColor": "yellow", "format": "{name} ({cores-logical}T)" },
+        { "type": "memory", "key": "│ Memory", "keyColor": "yellow", "percent": { "green": 70, "yellow": 85 } },
+        { "type": "swap",   "key": "│ Swap",   "keyColor": "yellow", "percent": { "green": 25, "yellow": 60 } },
+        { "type": "loadavg","key": "│ Load",   "keyColor": "yellow" },
+        { "type": "custom", "format": "└──────────────────────────────────────────────────────────────────┘" },
+        { "type": "custom", "format": "┌──────────────────────────── Storage ─────────────────────────────┐" },
+        { "type": "disk",   "key": "│ Disk",   "keyColor": "blue", "percent": { "green": 70, "yellow": 85 }, "format": "{mountpoint} {size-used} / {size-total} ({size-percentage}) - {filesystem}" },
+        { "type": "custom", "format": "└──────────────────────────────────────────────────────────────────┘" },
+        { "type": "custom", "format": "┌──────────────────────────── Network ─────────────────────────────┐" },
+        { "type": "localip","key": "│ IP",     "keyColor": "cyan", "showIpv6": false, "format": "{ipv4} ({ifname})" },
+        { "type": "custom", "format": "└──────────────────────────────────────────────────────────────────┘" },
+        "break",
+        { "type": "colors", "symbol": "circle" },
+        "break"
+    ]
+}

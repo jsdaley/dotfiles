@@ -47,3 +47,7 @@ After it finishes, re-login or `exec zsh`.
 - SSH: a shared `~/.ssh/config` (cipher hardening + sane defaults) is symlinked;
   host-specific/sensitive entries live in `~/.ssh/config.local` (gitignored).
 - `just servers` reads the host list from `~/.config/dotfiles/servers` (gitignored).
+- **fastfetch:** a shared base dashboard (`config/fastfetch/config.jsonc`) is
+  *seeded* to `~/.config/fastfetch/config.jsonc` only if the box has none — so a
+  machine's own role-specific dashboard (Proxmox VMs, Plex/RAID/GPU panels, etc.)
+  is never overwritten. Those richer per-host configs stay local (out of the repo).

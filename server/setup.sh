@@ -43,6 +43,13 @@ if [[ ! -f "$HOME/.gitconfig.local" ]]; then
   printf '[user]\n\tname = Jared Daley\n\temail = jsdaley@users.noreply.github.com\n' > "$HOME/.gitconfig.local"
 fi
 [[ -f "$HOME/.ssh/config.local" ]] || { mkdir -p "$HOME/.ssh"; chmod 700 "$HOME/.ssh"; : > "$HOME/.ssh/config.local"; chmod 600 "$HOME/.ssh/config.local"; }
+# fastfetch: seed the shared base dashboard ONLY if this box has none yet, so
+# machine-specific dashboards (Proxmox/Plex/RAID/GPU panels) are never clobbered.
+if [[ ! -f "$HOME/.config/fastfetch/config.jsonc" ]]; then
+  mkdir -p "$HOME/.config/fastfetch"
+  cp "$REPO/config/fastfetch/config.jsonc" "$HOME/.config/fastfetch/config.jsonc"
+  echo "  seeded ~/.config/fastfetch/config.jsonc (base — customize freely)"
+fi
 
 # --- 5. symlink the SAME dotfiles the Mac uses (via the shared manifest) ------
 step "Linking shared dotfiles (links.conf)"
