@@ -242,18 +242,3 @@ The work machine has drifted; run the audit in
 
 **Undo something** → see [`STATE-CHANGES.md`](STATE-CHANGES.md) for the per-change
 revert steps; backups are in `backups/`.
-
----
-
-## Send to Yanne
-
-Tools you have that his (excellent) CLI kit is missing and might appreciate:
-
-- **ykman** — YubiKey management (he has step/mkcert but no hardware-key tool)
-- **ocrmypdf** — add an OCR text layer to scanned PDFs
-- **ddrescue** — robust data recovery from failing media
-- **iperf** — raw L4 bandwidth testing (he only has HTTP load tools)
-- **wakeonlan** — wake machines by MAC
-- **wimlib** — Windows imaging (.wim) manipulation
-- **lftp** — scriptable, resilient FTP/SFTP transfers
-- **Bruno** — local-first API client (a strong Postman alternative)
