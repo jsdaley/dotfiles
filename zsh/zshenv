@@ -1,6 +1,12 @@
 # ~/.zshenv — sourced by EVERY zsh (interactive, non-interactive, scripts), first.
 # Keep this lean: only env vars that must exist in all zsh contexts belong here.
 
+# Default editor for every tool that respects $EDITOR/$VISUAL (yazi's file opener,
+# git's fallback, crontab, fc, etc.). Set here (not just interactively) so child
+# processes inherit it — without this, yazi falls back to its built-in `vi` default.
+export EDITOR=micro
+export VISUAL=micro
+
 # Silence zoxide's "init was not last" doctor everywhere. It's a real env var, so
 # setting it here (not just in the interactive zsh/tools.zsh) covers non-interactive
 # and nested/tool shells too — otherwise the warning can surface in those contexts
