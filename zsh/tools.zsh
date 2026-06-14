@@ -35,11 +35,9 @@ if command -v direnv >/dev/null 2>&1; then
   eval "$(direnv hook zsh)"
 fi
 
-# ── mise: polyglot runtime manager (replaces nodenv). Fallback to nodenv. ────
+# ── mise: polyglot runtime manager (replaces nodenv) ────────────────────────
 if command -v mise >/dev/null 2>&1; then
   eval "$(mise activate zsh)"
-elif command -v nodenv >/dev/null 2>&1; then
-  eval "$(nodenv init - zsh)"
 fi
 
 # ── zsh-autosuggestions colour (carried over) ───────────────────────────────
