@@ -130,7 +130,8 @@ brew 'ddrescue'         # data recovery
 ###############################################################################
 # Dev
 cask 'visual-studio-code'        # primary editor
-cask 'iterm2'                    # terminal
+cask 'ghostty'                   # terminal (primary; config in config/ghostty)
+cask 'iterm2'                    # terminal (kept alongside Ghostty for now)
 cask 'orbstack'                  # Docker/Linux runtime (Docker Desktop replacement)
 cask 'bruno'                     # API client (your Postman alternative)
 cask 'tableplus'                 # database GUI

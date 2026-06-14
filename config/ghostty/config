@@ -1,0 +1,73 @@
+# Ghostty config — derived from the iTerm2 "Default" profile + zsh/p10k prefs.
+# Standalone (NOT yet in the dotfiles repo). Reload after edits: Cmd+Shift+,
+# Docs: https://ghostty.org/docs/config
+# NOTE: Ghostty has no inline comments — a value runs to end-of-line. Keep
+# comments on their own lines.
+
+# ── Font ─────────────────────────────────────────────────────────────────────
+# Same face iTerm used (MesloLGS-NF 12) — the Powerlevel10k-recommended Nerd Font.
+font-family = "MesloLGS NF"
+font-size = 12
+# Thicken glyphs to match iTerm's heavier rendering — thin antialiased text on a
+# dark background edge-blends toward the bg and reads dimmer; thickening keeps the
+# colors solid and lighter/crisper. (alpha-blending is already "native".)
+font-thicken = true
+
+# ── Window / appearance ──────────────────────────────────────────────────────
+# iTerm Transparency 0.247 -> opacity ~0.75; Blur Radius ~14.
+background-opacity = 0.75
+background-blur = 14
+macos-titlebar-style = transparent
+# Restore windows/tabs across restarts.
+window-save-state = always
+# iTerm initial size was 80x24 (columns x rows).
+window-width = 80
+window-height = 24
+mouse-hide-while-typing = true
+
+# ── Cursor ───────────────────────────────────────────────────────────────────
+# iTerm Cursor Type 2 (box), blinking, red.
+cursor-style = block
+cursor-style-blink = true
+cursor-color = #ff0017
+# Keep the glyph under the block cursor legible (iTerm hid it by also making it red).
+# cell-background auto-tracks the real cell bg, so it stays correct if colors change.
+cursor-text = cell-background
+
+# ── Keyboard ─────────────────────────────────────────────────────────────────
+# THE fix for the fzf Alt-C gotcha you hit in iTerm: left Option now sends
+# Alt/Meta (so Alt-C / Alt-. work), while right Option still composes accents.
+macos-option-as-alt = left
+
+# ── Scrollback ───────────────────────────────────────────────────────────────
+# ~100 MB — approximates iTerm "Unlimited Scrollback".
+scrollback-limit = 100000000
+
+# ── Shell integration ────────────────────────────────────────────────────────
+# Ghostty auto-injects zsh integration (cursor shape, title, cwd, jump-to-prompt);
+# native replacement for the iTerm2 shell-integration script.
+shell-integration = detect
+shell-integration-features = cursor,sudo,title
+
+# ── Colors (mapped 1:1 from the iTerm2 Default profile) ──────────────────────
+foreground = #fffaf3
+background = #0d0f18
+selection-background = #002a3a
+selection-foreground = #ffffff
+
+palette = 0=#222222
+palette = 1=#ff000f
+palette = 2=#8ce00a
+palette = 3=#ffb900
+palette = 4=#008df8
+palette = 5=#6c43a5
+palette = 6=#00d7eb
+palette = 7=#ffffff
+palette = 8=#444444
+palette = 9=#ff273f
+palette = 10=#abe05a
+palette = 11=#ffd141
+palette = 12=#0092ff
+palette = 13=#9a5feb
+palette = 14=#67ffef
+palette = 15=#ffffff
