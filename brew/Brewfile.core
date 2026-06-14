@@ -96,7 +96,6 @@ brew 'iperf'            # raw L4 bandwidth testing
 ###############################################################################
 brew 'gnupg'
 brew 'pinentry-mac'     # GPG pinentry on macOS
-brew 'ykman'            # YubiKey manager
 brew 'mkcert'           # locally-trusted dev certs
 brew 'trufflehog'       # find leaked/verified secrets in git history & files
 brew 'gitleaks'         # fast secret scanner (pre-commit / CI)

@@ -190,7 +190,7 @@ Read the real files in `brew/` first. This snapshot is only a backup reference.
   (atuin, direnv, fzf, tmux); **mise**; git (gh, git-delta, difftastic, lazygit,
   tig); data (jq, yq, fx, gron, jless); containers (lazydocker, dive, ctop,
   hadolint, trivy); net (xh, mtr, doggo, nmap, iftop, iperf); security (gnupg,
-  pinentry-mac, ykman, mkcert); micro; files/media (broot, yazi, pv, wget,
+  pinentry-mac, mkcert); micro; files/media (broot, yazi, pv, wget,
   p7zip, yt-dlp, ffmpeg, wakeonlan, lftp, ocrmypdf, poppler, ddrescue); casks
   (visual-studio-code, iterm2, orbstack, bruno, tableplus, cyberduck, obsidian,
   ollama, 1password(-cli), localsend, the-unarchiver, wireshark-app, powershell,
