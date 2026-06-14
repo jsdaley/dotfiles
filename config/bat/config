@@ -2,3 +2,6 @@
 --theme="ansi"
 --style="numbers,changes,header"
 --italic-text=always
+# Older bat (e.g. Ubuntu 24.04's 0.24) doesn't map .jsonc/.json5 to JSON.
+--map-syntax="*.jsonc:JSON"
+--map-syntax="*.json5:JSON"
