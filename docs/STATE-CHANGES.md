@@ -316,10 +316,17 @@ change** without reverting everything else.
   handful of hosts).
 - **Undo:** `git revert`; `backups/` holds replaced files.
 
+### P3 — ykman dropped + security doc ✅
+- Removed `ykman` (no YubiKey anymore) from Brewfile.core + uninstalled.
+- Added `docs/SECURITY.md` — posture + AI-safety roadmap. **agent-vault**
+  (Infisical credential broker) evaluated & documented for later self-hosted
+  deploy; 1Password `op run` noted for runtime secrets; SSH commit signing deferred.
+
 ## Still pending
 - Run `server/setup.sh` on each box (`just servers` once pushed/synced).
 - Terminal emulator (iTerm2 vs Ghostty) — deferred.
-- P3 follow-ups: AI redaction proxy (opt-in), Claude skills/marketplaces (see chat).
+- Later: deploy agent-vault on a server; 1Password SSH commit signing; Claude
+  skills/marketplaces (security-guidance, Semgrep) — see chat.
 - Stale `~/.Brewfile`, `~/.fzf.{zsh,bash}`, `~/.config/mc` can be deleted to declutter.
 - Phase 3 (power-user settings) — not started.
 - 4 Phase 1 commits + these are local — **not pushed** (you chose Hold).
