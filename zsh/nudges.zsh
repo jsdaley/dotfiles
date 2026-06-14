@@ -9,6 +9,14 @@
 # (The day-to-day swaps — ls→eza, cat→bat, grep→rg, find→fd, du→dust, df→duf,
 #  ps→procs, top→btop, cd→zoxide, dig→doggo — live in aliases.zsh / tools.zsh.)
 
+# Some names below may already be aliases (egrep/fgrep ship as aliases on macOS,
+# and others may come from omz). zsh can't define a function over an existing
+# alias, so clear them first.
+for _n in nodenv node-build nvm pyenv mc ranger ack egrep fgrep; do
+  unalias "$_n" 2>/dev/null
+done
+unset _n
+
 _nudge() {  # _nudge <old> <replacement> <hint>
   print -u2 -P "%F{yellow}↪ '$1' is retired here — use %B$2%b.%f ${3:+($3) }(force: command $1)"
   return 127
