@@ -83,12 +83,23 @@ brew tap                         # taps
 brew autoremove --dry-run        # orphaned deps (prune candidates)
 
 # --- Node ecosystem (THE important one for this machine) ---
-# npm globals are per-node-version; check the active one AND each installed one:
-npm ls -g --depth=0
-nodenv versions 2>/dev/null || mise ls node 2>/dev/null
-# If multiple node versions exist, repeat for each, e.g.:
-#   NODENV_VERSION=20.x.x npm ls -g --depth=0
+# npm globals are tied to a SPECIFIC node install, so the active version only
+# shows a slice. Lots of this machine's system-wide CLIs are npm/pnpm globals
+# spread across nodenv versions — enumerate EVERY version, not just the current.
+npm ls -g --depth=0                              # active version (baseline)
+nodenv versions --bare 2>/dev/null || mise ls node 2>/dev/null
+
+# Walk every nodenv-installed node and list its global npm packages:
+for v in $(nodenv versions --bare 2>/dev/null); do
+  echo "===== nodenv $v ====="
+  # nodenv's npm shim respects NODENV_VERSION; --depth=0 = top-level globals only
+  NODENV_VERSION="$v" nodenv exec npm ls -g --depth=0 2>/dev/null
+done
+
+# pnpm keeps ONE global store (not per-node), but its bin links can still point
+# at a particular node — capture it once, plus the global dir for context:
 pnpm ls -g --depth=0 2>/dev/null
+pnpm root -g 2>/dev/null
 yarn global list 2>/dev/null
 bun pm ls -g 2>/dev/null
 corepack --version 2>/dev/null
