@@ -17,6 +17,7 @@ brew 'coreutils'        # GNU file/shell/text utils (g-prefixed)
 brew 'gnu-sed'          # GNU sed (gsed) — predictable -i, regex
 brew 'grep'             # GNU grep (ggrep)
 brew 'findutils'        # gfind/gxargs/glocate
+brew 'parallel'         # GNU parallel — run jobs in parallel
 
 ###############################################################################
 # Modern CLI — "full send" replacements (aliased over ls/cat/find/etc.)
@@ -92,6 +93,7 @@ brew 'doggo'            # modern dig/DNS client
 brew 'nmap'             # port scanning
 brew 'iftop'            # per-interface bandwidth
 brew 'iperf'            # raw L4 bandwidth testing
+brew 'wireguard-tools'  # WireGuard CLI (wg / wg-quick)
 
 ###############################################################################
 # Security / crypto
@@ -145,8 +147,17 @@ cask '1password-cli'             # 1Password CLI (op)
 cask 'localsend'                 # cross-platform AirDrop alternative
 cask 'the-unarchiver'            # archive extraction
 cask 'wireshark-app'             # network protocol analyzer
+cask 'maccy'                     # clipboard history manager (local, no telemetry)
+cask 'tunnelblick'               # OpenVPN client
 
 ###############################################################################
 # Fonts (Nerd Font required for Powerlevel10k icons)
 ###############################################################################
 cask 'font-meslo-lg-nerd-font'   # p10k's recommended font
+
+###############################################################################
+# Mac App Store (requires `brew 'mas'` + being signed into the App Store).
+# brew bundle will warn/skip these if you're not signed in — that's fine.
+###############################################################################
+brew 'mas'                       # Mac App Store CLI
+mas 'WireGuard', id: 1451685025  # WireGuard GUI (App Store only — no cask exists)

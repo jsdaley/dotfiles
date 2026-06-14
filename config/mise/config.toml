@@ -5,6 +5,7 @@
 [tools]
 node = "24"
 python = "3.14"    # mise is the source of truth for Python (brew python@3.11 removed)
+go = "latest"      # mise is the source of truth for Go (work machine; brew 'go' removed)
 
 [settings]
 # Reuse asdf-style .tool-versions and .nvmrc files if present in a project:

@@ -1,36 +1,70 @@
 # Brewfile.work — work machine additions (layered on top of Brewfile.core)
 # Installed via: brew bundle --file brew/Brewfile.work
-# Covers AWS + Infrastructure-as-Code. (Kubernetes intentionally omitted.)
+# Reconciled to REAL usage from the Cyclops audit (2026-06); tokens verified.
 
 ###############################################################################
 # Taps
 ###############################################################################
 tap 'common-fate/granted'
+tap 'hashicorp/tap'          # terraform left homebrew-core over its license change
 
 ###############################################################################
 # AWS
 ###############################################################################
-brew 'awscli'                       # aws CLI v2
-brew 'granted'                      # fast multi-account AWS access (assume)
-brew 'aws-sso-util'                 # smooth out AWS SSO login/config
-brew 'chamber'                      # secrets via SSM Parameter Store
-brew 'awslogs'                      # tail CloudWatch logs
-cask 'session-manager-plugin'      # SSM session support for aws CLI
+brew 'awscli'                # aws CLI v2 (brew-managed; replaces the official pkg installer)
+brew 'granted'               # fast multi-account AWS access (assume)
 
 ###############################################################################
 # Infrastructure as Code
 ###############################################################################
-brew 'opentofu'                    # Terraform-compatible IaC (tofu)
-brew 'terragrunt'                  # DRY wrapper + state locking for tofu
-brew 'ansible'                     # configuration management
+brew 'hashicorp/tap/terraform'   # the IaC tool actually used here (not opentofu/terragrunt)
+
+###############################################################################
+# Build / proto / performance
+###############################################################################
+brew 'protobuf'              # protoc for gRPC / protobuf
+brew 'jmeter'                # load / performance testing
+
+###############################################################################
+# Data
+###############################################################################
+brew 'parquet-cli'           # inspect Parquet files
+
+###############################################################################
+# Python
+###############################################################################
+brew 'pipenv'                # Python environment manager
+
+###############################################################################
+# API / gRPC clients
+###############################################################################
+cask 'postman'               # REST client (work only; Bruno stays in core)
+cask 'kreya'                 # gRPC / REST / GraphQL GUI — BloomRPC's successor
+# Optional CLI gRPC tooling (uncomment if wanted):
+# brew 'grpcurl'             # curl-for-gRPC
+# brew 'grpcui'              # reflection-based gRPC web UI
 
 ###############################################################################
 # VPN
 ###############################################################################
-cask 'tunnelblick'                 # OpenVPN client
+cask 'aws-vpn-client'        # work AWS VPN
 
 ###############################################################################
-# Container image tooling (deeper than core; useful for CI/registries at work)
+# Database / data GUIs
 ###############################################################################
-brew 'skopeo'                      # work with remote image registries
-brew 'crane'                       # interact with images/registries
+cask 'postico'               # Postico 2 — primary DB client
+cask 'dbeaver-community'     # kept alongside Postico
+cask 'mysql-shell'           # MySQL shell
+cask 'azure-data-studio'     # SQL Server / Azure data
+cask 'redisinsight'          # Redis Insight
+
+###############################################################################
+# Intentionally NOT here (documented so the drift doesn't creep back):
+#   - go              → managed by mise (config/mise/config.toml), not brew
+#   - postgresql@14, redis  → run as Docker containers, not on metal
+#   - docker, kubectl       → provided by OrbStack (core cask)
+#   - tunnelblick, WireGuard → promoted to core
+#   - opentofu / terragrunt / ansible, chamber / awslogs / aws-sso-util,
+#     skopeo / crane, session-manager-plugin → not actually used here
+#   - tableau, circleci → no longer used
+###############################################################################
