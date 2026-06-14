@@ -41,6 +41,13 @@ step "Homebrew"
 if ! command -v brew >/dev/null 2>&1; then
   warn "Homebrew install will ask for your sudo password (admin required)."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+else
+  # A pre-existing Homebrew can be old with stale package/cask metadata and a
+  # corrupted download cache, which makes `brew bundle` spuriously fail installs
+  # ("No Cask with this name exists", ".incomplete" cleanup errors). Refresh it.
+  echo "refreshing existing Homebrew (update + prune stale cache)…"
+  brew update || warn "brew update failed (continuing)"
+  brew cleanup --prune=all >/dev/null 2>&1 || true
 fi
 eval "$(/opt/homebrew/bin/brew shellenv)"
 echo "brew: $(brew --version | head -1)"
@@ -133,4 +140,5 @@ if [[ "$SHELL" != "$BREW_ZSH" && -x "$BREW_ZSH" ]]; then
   echo "    echo '$BREW_ZSH' | sudo tee -a /etc/shells && chsh -s '$BREW_ZSH'"
 fi
 
-bold "\nDone. Open a new terminal (or run: exec zsh)."
+echo
+bold "Done. Open a new terminal (or run: exec zsh)."

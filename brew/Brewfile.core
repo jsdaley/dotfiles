@@ -137,7 +137,7 @@ cask 'bruno'                     # API client (your Postman alternative)
 cask 'tableplus'                 # database GUI
 cask 'cyberduck'                 # SFTP/cloud storage browser
 cask 'obsidian'                  # notes
-cask 'ollama'                    # local LLM runtime (used by llm-start)
+cask 'ollama-app'                # local LLM runtime (used by llm-start; was 'ollama')
 # Security / utility
 cask '1password'                 # password manager (app)
 cask '1password-cli'             # 1Password CLI (op)
