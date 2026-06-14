@@ -24,6 +24,18 @@ mkdir -p "$HOME/.local/bin"
 command -v batcat >/dev/null 2>&1 && ln -sf "$(command -v batcat)" "$HOME/.local/bin/bat"
 command -v fdfind >/dev/null 2>&1 && ln -sf "$(command -v fdfind)" "$HOME/.local/bin/fd"
 
+# --- 2b. snap fallbacks for tools missing from apt ---------------------------
+# Some tools (e.g. procs) ship in Debian's apt but not Ubuntu's enabled repos.
+# Where apt didn't provide them and snapd is available, fall back to snap.
+step "Snap fallbacks (tools missing from apt)"
+if command -v snap >/dev/null 2>&1; then
+  if ! command -v procs >/dev/null 2>&1; then
+    sudo snap install procs && echo "  installed procs via snap" || echo "  snap install procs failed"
+  fi
+else
+  command -v procs >/dev/null 2>&1 || echo "  procs missing (not in apt, snap unavailable) — skipped"
+fi
+
 # --- 3. oh-my-zsh + Powerlevel10k + plugins ----------------------------------
 step "oh-my-zsh + Powerlevel10k + plugins"
 export ZSH="${ZSH:-$HOME/.oh-my-zsh}"
