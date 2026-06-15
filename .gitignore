@@ -14,3 +14,7 @@ secrets/
 
 # Timestamped backups of replaced files
 backups/
+
+# Personal change log — kept locally for my own reference, not shipped to
+# people copying the repo (git history is the record for them).
+docs/STATE-CHANGES.md
