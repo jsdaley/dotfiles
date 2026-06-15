@@ -31,6 +31,12 @@ brew 'jmeter'                # load / performance testing
 brew 'parquet-cli'           # inspect Parquet files
 
 ###############################################################################
+# Node / JavaScript
+###############################################################################
+brew 'pnpm'                  # node package manager of choice at work (brew-managed,
+                             # so it's independent of the mise node version)
+
+###############################################################################
 # Python
 ###############################################################################
 brew 'pipenv'                # Python environment manager
