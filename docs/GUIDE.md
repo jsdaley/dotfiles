@@ -215,14 +215,16 @@ GrandPerspective, KeepingYouAwake), and Pascal/Lazarus.
 
 ## Work profile
 
-AWS (`awscli`, `granted`/`assume`, `aws-sso-util`, `chamber`, `awslogs`,
-`session-manager-plugin`), IaC (`opentofu`→`tofu`, `terragrunt`→`tg`, `ansible`),
-registry/image tooling (`skopeo`, `crane`), VPN (`tunnelblick`). Shell extras in
-`zsh/profile.work.zsh` (e.g. `a`=assume, `tf`=tofu, `tg`=terragrunt). Kubernetes
-is intentionally excluded — add `k9s`/`helm` only if a machine truly needs it.
+AWS (`awscli`, `granted`/`assume`), IaC (`hashicorp/tap/terraform`→`tf`), build/
+data (`protobuf`, `jmeter`, `parquet-cli`, `steampipe`, `actions-up`), Node/Python
+(`pnpm`, `pipenv`); casks: `postman`, `kreya` (gRPC), `aws-vpn-client`, DB GUIs
+(`postico`, `dbeaver-community`, `mysql-shell`, `redis-insight`). Shell extras in
+`zsh/profile.work.zsh` (`a`=assume, `tf`=terraform, Orderful nav `ord`/`be`/`fe`).
+Postgres/Redis run as containers; docker/kubectl come from OrbStack; `go` from mise.
 
-The work machine has drifted; run the audit in
-[`work-machine-audit.md`](work-machine-audit.md) there to reconcile it.
+To bring **any** machine into these dotfiles (or just inventory one), hand a Claude
+Code session the generic [`machine-audit.md`](machine-audit.md) (audit + reconcile)
+and [`machine-cleanup.md`](machine-cleanup.md) (post-onboarding drift cleanup).
 
 ---
 

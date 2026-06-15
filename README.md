@@ -68,7 +68,7 @@ claude/ , vscode/         macOS GUI app settings
 server/                   headless-Linux provisioning (recon.sh, packages.apt, setup.sh)
 bin/                      helper scripts + custom git subcommands (on PATH)
 macos/set-defaults.sh     opinionated macOS defaults (run via bootstrap prompt)
-docs/                     GUIDE.md, SECURITY.md, STATE-CHANGES.md, work-machine-audit.md
+docs/                     GUIDE.md, SECURITY.md, STATE-CHANGES.md, machine-audit.md, machine-cleanup.md
 backups/                  timestamped backups of replaced files (gitignored)
 ```
 
