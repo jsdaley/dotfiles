@@ -18,8 +18,12 @@ font-thicken = true
 background-opacity = 0.75
 background-blur = 14
 macos-titlebar-style = transparent
-# Restore windows/tabs across restarts.
-window-save-state = always
+# Always start in the home directory: never restore the prior session's cwd,
+# and don't let new windows inherit the current one. (Splits still inherit, so
+# you can split into the same dir.)
+working-directory = home
+window-save-state = never
+window-inherit-working-directory = false
 # iTerm initial size was 80x24 (columns x rows).
 window-width = 80
 window-height = 24
