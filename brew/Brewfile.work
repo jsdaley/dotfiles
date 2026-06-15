@@ -61,6 +61,12 @@ cask 'mysql-shell'           # MySQL shell
 cask 'redis-insight'         # Redis Insight (was 'redisinsight')
 
 ###############################################################################
+# Cloud / CI tooling
+###############################################################################
+brew 'steampipe'             # query cloud / SaaS as SQL (homebrew-core; NOT turbot/tap anymore)
+brew 'actions-up'            # pin GitHub Actions to commit SHAs (pulls a Homebrew node — work-only)
+
+###############################################################################
 # Intentionally NOT here (documented so the drift doesn't creep back):
 #   - go              → managed by mise (config/mise/config.toml), not brew
 #   - postgresql@14, redis  → run as Docker containers, not on metal
