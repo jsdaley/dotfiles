@@ -51,10 +51,13 @@ if ! command -v yazi >/dev/null 2>&1; then
     ytag="$(curl -fsSL https://api.github.com/repos/sxyazi/yazi/releases/latest 2>/dev/null \
             | grep -oE '"tag_name": *"[^"]+"' | head -1 | grep -oE 'v[0-9][^"]*')"
     if [[ -n "$ytag" ]]; then
-      ytmp="$(mktemp -d)"
+      ytmp="$(mktemp -d)"; chmod 755 "$ytmp"   # readable by the _apt sandbox user
       if curl -fsSL "https://github.com/sxyazi/yazi/releases/download/${ytag}/${ydeb}" -o "$ytmp/yazi.deb"; then
-        sudo apt-get install -y "$ytmp/yazi.deb" && echo "  installed yazi ${ytag} (${ydeb})" \
-          || echo "  yazi .deb install failed"
+        chmod 644 "$ytmp/yazi.deb"
+        # --no-install-recommends: skip the .deb's preview deps (imagemagick,
+        # ghostscript, poppler, fonts…) — not needed for headless file management.
+        sudo apt-get install -y --no-install-recommends "$ytmp/yazi.deb" \
+          && echo "  installed yazi ${ytag} (${ydeb})" || echo "  yazi .deb install failed"
       else
         echo "  could not download yazi .deb ($ydeb @ $ytag)"
       fi
