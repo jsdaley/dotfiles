@@ -35,8 +35,8 @@ section, make it [Keybinding & alias cheat sheet](#keybinding--alias-cheat-sheet
    declared once in `links.conf`.
 4. **Keep fallbacks.** Familiar/best-practice tools stay even when a fancier one
    exists (e.g. `htop` alongside `btop`).
-5. **Reproducible & reversible.** Everything is a committed file; changes are
-   logged in [`STATE-CHANGES.md`](STATE-CHANGES.md); replaced files are backed up.
+5. **Reproducible & reversible.** Everything is a committed file; `git log` is the
+   record of every change, and replaced files are backed up in `backups/`.
 
 ---
 
@@ -297,5 +297,5 @@ list in gitignored `~/.config/dotfiles/servers`). See [`server/`](../server/).
 
 **Secrets / machine-specific bits** → `~/.localrc` (sourced last, never committed).
 
-**Undo something** → see [`STATE-CHANGES.md`](STATE-CHANGES.md) for the per-change
-revert steps; backups are in `backups/`.
+**Undo something** → `git log`/`git revert` is the authoritative record of every
+change; replaced files are backed up in `backups/`.
