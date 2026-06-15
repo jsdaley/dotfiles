@@ -17,6 +17,15 @@ alias sc='systemctl'
 alias scs='systemctl status'
 alias reload-sysd='sudo systemctl daemon-reload'
 
+# ── apt / packages ───────────────────────────────────────────────────────────
+alias agi='sudo apt install'
+alias agu='sudo apt update'
+alias agud='sudo apt update && sudo apt upgrade'
+alias agr='sudo apt remove'
+alias agar='sudo apt autoremove'
+alias ags='apt search'
+alias agsh='apt show'
+
 # ── docker ───────────────────────────────────────────────────────────────────
 alias dps='docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"'
 alias dpsa='docker ps -a --format "table {{.Names}}\t{{.Status}}"'

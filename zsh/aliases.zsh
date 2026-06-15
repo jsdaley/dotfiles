@@ -39,6 +39,7 @@ command -v procs   >/dev/null 2>&1 && alias ps='procs'
 command -v btop    >/dev/null 2>&1 && alias top='btop'
 command -v xh      >/dev/null 2>&1 && alias http='xh'
 command -v doggo   >/dev/null 2>&1 && alias dig='doggo'
+command -v micro   >/dev/null 2>&1 && alias nano='micro'   # standardize on micro (real nano: \nano)
 
 # ── short launchers for TUIs ────────────────────────────────────────────────
 command -v lazygit    >/dev/null 2>&1 && alias lg='lazygit'
