@@ -20,8 +20,8 @@ exec zsh                  # or open a new terminal
 ```
 `bootstrap.sh` installs Xcode CLT + Homebrew, runs `brew bundle` for the core +
 chosen profile, sets up oh-my-zsh / Powerlevel10k / plugins, symlinks the dotfiles
-(`link.sh`), provisions runtimes via `mise`, and installs global npm CLIs.
-Privileged steps pause and tell you exactly what to run.
+(`link.sh`), provisions runtimes via `mise`, and installs the Claude Code CLI via
+its native installer. Privileged steps pause and tell you exactly what to run.
 
 **Linux server:** copy the repo to the box and run `server/setup.sh` (or
 `just servers` from the Mac) — see [`server/`](server/).
@@ -35,7 +35,7 @@ first-class peers and the set is extensible — add a new one by creating a
 | Profile | OS | Adds on top of core |
 |---------|----|---------------------|
 | `home`  | macOS | virtualization, retro emulation, media, games, disk tools |
-| `work`  | macOS | AWS, OpenTofu/Terragrunt/Ansible, registry tooling, VPN |
+| `work`  | macOS | AWS, Terraform, build/data tooling, gRPC + DB GUIs, AWS VPN |
 | `server`| Linux | headless: same zsh/p10k config + admin tooling (see `server/`) |
 
 Switch a macOS machine's profile:
@@ -103,3 +103,5 @@ place by `bootstrap.sh`:
 - **`~/.gitconfig.local`** — git identity (name, email, signing key). The
   committed `gitconfig` ends with `[include] path = ~/.gitconfig.local`, so each
   machine/profile can use its own email (e.g. a work address on the work box).
+- **`~/.ssh/config.local`** — per-machine SSH hosts (e.g. LAN host aliases). The
+  committed `ssh/config` ends with `Include ~/.ssh/config.local`.

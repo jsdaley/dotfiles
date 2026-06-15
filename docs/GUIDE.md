@@ -61,13 +61,31 @@ Switch: `echo work > ~/.config/dotfiles/profile && brew/install.sh && exec zsh`.
 
 - **Powerlevel10k** prompt with instant-prompt (no startup lag). Reconfigure with
   `p10k configure`; config in `~/.p10k.zsh`. Needs a Nerd Font —
-  `font-meslo-lg-nerd-font` is installed; set it in iTerm/VS Code.
+  `font-meslo-lg-nerd-font` is installed; set it in Ghostty/iTerm/VS Code.
 - `.zshrc` is a thin **orchestrator** that sources modules in `zsh/`. Edit the
   module, not a giant rc file: `aliases.zsh`, `tools.zsh`, `functions.zsh`, etc.
-- oh-my-zsh plugins: `git brew macos npm docker docker-compose fzf direnv
-  zsh-autosuggestions zsh-syntax-highlighting`.
+- oh-my-zsh plugins: `git npm docker docker-compose you-should-use` (+ `brew
+  macos` on macOS) + `fzf-tab zsh-autosuggestions zsh-syntax-highlighting`. (fzf,
+  direnv, atuin, zoxide, mise are initialized in `tools.zsh`, not as omz plugins.)
 - History: large (100k), shared across sessions, dedup'd, space-prefixed commands
   are not recorded.
+
+---
+
+## Terminal (Ghostty)
+
+**Ghostty** is the primary terminal; **iTerm2** is kept installed alongside. Its
+config lives in `config/ghostty/config` (symlinked, macOS-only) and is tuned to:
+
+- `MesloLGS NF` @ 12 with `font-thicken`, and an iTerm-matched color palette;
+  blinking red **block** cursor (`no-cursor` shell-integration so it sticks).
+- `macos-option-as-alt = left` — makes fzf `Alt-C` and friends work.
+- `ssh-terminfo` + `ssh-env` — installs Ghostty's terminfo on remote hosts so
+  SSH doesn't throw `unknown terminal "xterm-ghostty"`.
+- Always opens in `~` at 107×29 (`working-directory = home`, `window-save-state = never`).
+
+Editor colors match too: **micro** uses a custom `vscode-monokai` colorscheme
+(`config/micro/colorschemes/`), rendered in 24-bit via `MICRO_TRUECOLOR=1`.
 
 ---
 
@@ -85,6 +103,7 @@ Switch: `echo work > ~/.config/dotfiles/profile && brew/install.sh && exec zsh`.
 | `top` | **btop** | `\top` / `htop` | rich TUI (htop kept as fallback) |
 | `dig` | **doggo** | `\dig` | clean DNS output |
 | `http` | **xh** | — | ergonomic HTTP client |
+| `nano` | **micro** | `\nano` | modern CUA-style editor (`$EDITOR`), not modal |
 
 Also available by their own names: `sd` (sed-like replace), `rga` (ripgrep over
 PDFs/zips/docx), `tldr` (example-first help), `hyperfine` (benchmark), `tokei`
@@ -110,9 +129,9 @@ replacement instead of failing (`zsh/nudges.zsh`). Force the original with
   don't have what you want.
 - **fzf** fuzzy finder, wired with `fd` + `bat`/`eza` previews:
   - `Ctrl-T` — insert a file path (with preview)
-  - `Alt-C` — cd into a directory. **macOS gotcha:** set iTerm → Settings →
-    Profiles → Keys → Left Option = `Esc+`, or Option won't register as Alt
-    (otherwise just use `cdf`).
+  - `Alt-C` — cd into a directory. Ghostty (`macos-option-as-alt = left`) and the
+    VS Code terminal (`macOptionIsMeta`) handle this out of the box. In **iTerm**,
+    set Settings → Profiles → Keys → Left Option = `Esc+`, or just use `cdf`.
   - `**<Tab>` — fuzzy-complete after any command (`vim **<Tab>`)
 - **atuin** owns `Ctrl-R` — full-text, fuzzy, stats-rich history search across all
   sessions. Local-only (no sync/account). Enter puts the command on the prompt to
@@ -123,15 +142,16 @@ replacement instead of failing (`zsh/nudges.zsh`). Force the original with
 
 ## Git
 
-`git/gitconfig.symlink` wires:
+`git/gitconfig` wires:
 
 - **delta** as the pager — syntax-highlighted, line-numbered diffs everywhere
   (`git diff`, `log -p`, `show`). `n`/`N` jump between files within a diff.
 - **difftastic** on demand — `git dft` (alias) or `gdt` for structural,
   syntax-aware diffs that ignore reformatting noise.
 - Sane defaults: `push.autoSetupRemote`, `pull.rebase`, `fetch.prune`,
-  `rebase.autosquash/autostash`, `merge.conflictstyle=zdiff3`, histogram diff.
-- Aliases: `st co sw br ci cm amend last lg unstage undo` (see the file).
+  `rebase.autosquash/autostash`, `merge.conflictstyle=zdiff3`, histogram diff,
+  `core.ignorecase=false` (case-sensitive filenames).
+- Aliases: `st co sw br ci cm amend last lg unstage undo dft` (see the file).
 - TUIs: **lazygit** (`lg`) for staging/committing/rebasing by keyboard;
   **tig** for browsing history; **gh** for PRs/issues from the terminal.
 
@@ -139,20 +159,21 @@ replacement instead of failing (`zsh/nudges.zsh`). Force the original with
 
 ## Runtimes (mise)
 
-`mise` replaced `nodenv` + manual `python@3.11`. One tool manages all language
+`mise` replaced `nodenv` + manual `python`/`go`. One tool manages all language
 runtimes and auto-switches per directory.
 
-- Global versions: `config/mise/config.toml` → node 24, python 3.14.
+- Global versions: `config/mise/config.toml` → node 24, python 3.14, go latest.
 - Per-project: drop a `mise.toml` (or use existing `.nvmrc`/`.tool-versions`).
 - Commands: `mise use -g go@latest` (add a runtime), `mise install`, `mise ls`,
   `mise exec node@20 -- node app.js`.
 - `direnv` complements it: an `.envrc` per project for env vars/secrets
   (`direnv allow` to trust it).
-- mise is the source of truth for Python: the redundant brew `python@3.11` was
-  removed. Two non-mise Pythons remain by necessity — brew `python@3.14` (a
-  dependency of nmap/ocrmypdf/yt-dlp/pipx/…) and the OS's `/usr/bin/python3`
-  (Apple); neither is on your `PATH` ahead of mise. Old `~/.nodenv` is dormant
-  and can be deleted (`rm -rf ~/.nodenv`).
+- mise is the source of truth for Python/Go: the redundant brew `python@3.11` was
+  removed. A brew `python` remains by necessity (a dependency of nmap/ocrmypdf/
+  yt-dlp/pipx/…), as does the OS's `/usr/bin/python3` (Apple); neither is ahead of
+  mise on `PATH`. `~/.nodenv` has been removed here — on any machine, **save its
+  global npm packages first** before deleting a version manager (see
+  [`machine-cleanup.md`](machine-cleanup.md)).
 
 ---
 
@@ -190,9 +211,10 @@ Runtime is **OrbStack** (the `docker` CLI talks to it). Tools:
 
 ## Files, media & misc
 
-- **yazi** (`y`) — fast TUI file manager (replaced midnight-commander). Vim-style
-  keys: `hjkl` move, `Enter`/`l` open, `Space` select, `y`/`x`/`p` yank/cut/paste,
-  `q` quit. `:` for commands.
+- **yazi** (`y`) — fast TUI file manager (replaced midnight-commander). Mac-friendly
+  arrow keymap (`config/yazi/keymap.toml`): arrows move, `←`/`Backspace` = parent,
+  `→`/`Enter` = open, Fn+arrows = top/bottom/page, `Space` select, `y`/`x`/`p` =
+  yank/cut/paste. Stock vim keys (`hjkl`) still work underneath. `:` commands, `q` quit.
 - Kept utilities: `broot`, `pv`, `wget`, `p7zip`, `ffmpeg`, `yt-dlp`, `wakeonlan`,
   `lftp`, `ocrmypdf`, `poppler` (pdftotext…), `ddrescue`.
 - Functions: `mkcd <dir>` (make+enter), `extract <archive>` (any format),
@@ -234,9 +256,10 @@ Headless Linux (Debian/Ubuntu), provisioned by `server/setup.sh` (apt, not brew)
 Reuses the **same** zsh + p10k + aliases as macOS via `links.conf`; Mac-only tools
 no-op. Adds `server/packages.apt` (modern CLI + admin/diagnostics: mtr, nmap,
 iftop, nethogs, iotop, tcpdump, smartmontools, lm-sensors, ncdu…) and admin
-aliases in `zsh/profile.server.zsh` (`dps`, `dl`, `dcl`, `ports`, `j`, `sc`,
-Proxmox `vms`/`cts`) plus `fastfetch` on login. Debian's `bat`/`fd` renames are
-shimmed back to their real names. Provision all hosts with `just servers` (host
+aliases in `zsh/profile.server.zsh` (`dps`, `dl`, `dcl`, `ports`, `j`, `sc`, apt
+shortcuts `agi`/`agu`/`ags`, Proxmox `vms`/`cts`) plus `fastfetch` on login.
+Debian's `bat`/`fd` renames are shimmed back to their real names, and `yazi` is
+installed from its upstream `.deb`. Provision all hosts with `just servers` (host
 list in gitignored `~/.config/dotfiles/servers`). See [`server/`](../server/).
 
 ---
@@ -266,8 +289,8 @@ list in gitignored `~/.config/dotfiles/servers`). See [`server/`](../server/).
 `brew/install.sh`, and (if it needs aliasing/init) edit `zsh/aliases.zsh` or
 `zsh/tools.zsh`.
 
-**Add a config file** → put it under `config/<tool>/…` and re-run `bootstrap.sh`
-(or `ln -s` it into `~/.config/<tool>/…`). It'll be symlinked, not copied.
+**Add a config file** → put it under `config/<tool>/…`, add a `links.conf` line
+(`source | target | when`), then run `./link.sh`. It's symlinked, not copied.
 
 **Add a runtime** → `mise use -g <lang>@<version>` (global) or commit a
 `mise.toml` in the project.

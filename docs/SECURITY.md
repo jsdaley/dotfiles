@@ -15,6 +15,8 @@ paranoid."
 - **Claude read-deny** — `claude/settings.json` `permissions.deny` blocks Claude from
   reading `.env`, `~/.ssh`, `~/.aws`, `~/.gnupg`, `*.key`/`*.pem`, `*.local`,
   `secrets/`, `.npmrc`, gh tokens.
+- **CI + GitHub** — Actions run `shellcheck` + `gitleaks` on every push; the public
+  repo has GitHub secret scanning, push protection, and Dependabot alerts enabled.
 
 ## AI secret safety — two distinct risks
 1. **Agent holds real credentials** → could leak them via prompt injection.
