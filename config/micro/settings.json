@@ -16,5 +16,5 @@
     "hlsearch": true,
     "tabhighlight": true,
     "statusline": true,
-    "colorscheme": "simple"
+    "colorscheme": "vscode-monokai"
 }

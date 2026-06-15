@@ -6,6 +6,7 @@
 # processes inherit it — without this, yazi falls back to its built-in `vi` default.
 export EDITOR=micro
 export VISUAL=micro
+export MICRO_TRUECOLOR=1   # 24-bit color so micro's hex colorschemes render accurately
 
 # Silence zoxide's "init was not last" doctor everywhere. It's a real env var, so
 # setting it here (not just in the interactive zsh/tools.zsh) covers non-interactive

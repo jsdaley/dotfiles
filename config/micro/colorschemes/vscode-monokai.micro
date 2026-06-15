@@ -1,0 +1,49 @@
+# VS Code "Monokai" theme for micro — truecolor (needs MICRO_TRUECOLOR=1).
+# Palette mirrors VS Code's built-in Monokai. Referenced by name in settings.json
+# ("colorscheme": "vscode-monokai"); linked to ~/.config/micro/colorschemes/.
+
+color-link default "#f8f8f2,#272822"
+
+color-link comment "#75715e"
+
+# numbers / booleans / constants
+color-link constant "#ae81ff"
+color-link constant.number "#ae81ff"
+color-link constant.bool "#ae81ff"
+# strings
+color-link constant.string "#e6db74"
+color-link constant.string.char "#e6db74"
+
+# identifiers / functions / classes
+color-link identifier "#f8f8f2"
+color-link identifier.class "#a6e22e"
+color-link identifier.var "#f8f8f2"
+
+# keywords / operators / tags
+color-link statement "#f92672"
+color-link symbol "#f92672"
+color-link symbol.brackets "#f8f8f2"
+color-link symbol.tag "#f92672"
+color-link preproc "#a6e22e"
+color-link type "italic #66d9ef"
+color-link type.keyword "#f92672"
+color-link special "#f92672"
+
+color-link underlined "#66d9ef"
+color-link error "#f8f8f0,#f92672"
+color-link todo "#272822,#e6db74"
+
+# UI chrome
+color-link statusline "#272822,#f8f8f2"
+color-link tabbar "#f8f8f2,#272822"
+color-link indent-char "#464741"
+color-link line-number "#90908a,#272822"
+color-link current-line-number "#f8f8f2,#3e3d32"
+color-link gutter-error "#f92672"
+color-link gutter-warning "#e6db74"
+color-link divider "#75715e,#272822"
+
+# diff gutter
+color-link diff-added "#a6e22e"
+color-link diff-modified "#66d9ef"
+color-link diff-deleted "#f92672"
