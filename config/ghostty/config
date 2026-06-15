@@ -51,8 +51,12 @@ scrollback-limit = 100000000
 # Ghostty auto-injects zsh integration (title, cwd, jump-to-prompt); native
 # replacement for the iTerm2 shell-integration script. `no-cursor` keeps the
 # shell from overriding our block cursor with a beam (so cursor-style sticks).
+#
+# ssh-terminfo: install Ghostty's terminfo on remote hosts so `xterm-ghostty` is
+#   known there (fixes `tput: unknown terminal "xterm-ghostty"` + redraw glitches).
+# ssh-env: fallback — set TERM=xterm-256color over SSH if terminfo can't install.
 shell-integration = detect
-shell-integration-features = no-cursor,sudo,title
+shell-integration-features = no-cursor,sudo,title,ssh-env,ssh-terminfo
 
 # ── Colors (mapped 1:1 from the iTerm2 Default profile) ──────────────────────
 foreground = #fffaf3
