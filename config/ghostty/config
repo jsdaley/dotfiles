@@ -44,10 +44,11 @@ macos-option-as-alt = left
 scrollback-limit = 100000000
 
 # ── Shell integration ────────────────────────────────────────────────────────
-# Ghostty auto-injects zsh integration (cursor shape, title, cwd, jump-to-prompt);
-# native replacement for the iTerm2 shell-integration script.
+# Ghostty auto-injects zsh integration (title, cwd, jump-to-prompt); native
+# replacement for the iTerm2 shell-integration script. `no-cursor` keeps the
+# shell from overriding our block cursor with a beam (so cursor-style sticks).
 shell-integration = detect
-shell-integration-features = cursor,sudo,title
+shell-integration-features = no-cursor,sudo,title
 
 # ── Colors (mapped 1:1 from the iTerm2 Default profile) ──────────────────────
 foreground = #fffaf3
