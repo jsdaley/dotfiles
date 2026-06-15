@@ -24,9 +24,9 @@ macos-titlebar-style = transparent
 working-directory = home
 window-save-state = never
 window-inherit-working-directory = false
-# iTerm initial size was 80x24 (columns x rows).
-window-width = 80
-window-height = 24
+# Initial window size in cells (columns x rows) — your preferred size.
+window-width = 107
+window-height = 29
 mouse-hide-while-typing = true
 
 # ── Cursor ───────────────────────────────────────────────────────────────────
