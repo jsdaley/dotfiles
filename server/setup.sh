@@ -36,6 +36,37 @@ else
   command -v procs >/dev/null 2>&1 || echo "  procs missing (not in apt, snap unavailable) — skipped"
 fi
 
+# --- 2c. yazi (not reliably in apt; install the official .deb) ---------------
+# yazi is newer than Ubuntu 24.04's repos and version-inconsistent across Debian,
+# so install the upstream .deb for a consistent, recent build on every server.
+# (The shared config/yazi/keymap.toml is already linked via links.conf.)
+step "yazi"
+if ! command -v yazi >/dev/null 2>&1; then
+  case "$(uname -m)" in
+    x86_64)  ydeb="yazi-x86_64-unknown-linux-gnu.deb" ;;
+    aarch64) ydeb="yazi-aarch64-unknown-linux-gnu.deb" ;;
+    *)       ydeb="" ;;
+  esac
+  if [[ -n "$ydeb" ]]; then
+    ytag="$(curl -fsSL https://api.github.com/repos/sxyazi/yazi/releases/latest 2>/dev/null \
+            | grep -oE '"tag_name": *"[^"]+"' | head -1 | grep -oE 'v[0-9][^"]*')"
+    if [[ -n "$ytag" ]]; then
+      ytmp="$(mktemp -d)"
+      if curl -fsSL "https://github.com/sxyazi/yazi/releases/download/${ytag}/${ydeb}" -o "$ytmp/yazi.deb"; then
+        sudo apt-get install -y "$ytmp/yazi.deb" && echo "  installed yazi ${ytag} (${ydeb})" \
+          || echo "  yazi .deb install failed"
+      else
+        echo "  could not download yazi .deb ($ydeb @ $ytag)"
+      fi
+      rm -rf "$ytmp"
+    else
+      echo "  could not resolve latest yazi release — skipped"
+    fi
+  else
+    echo "  no prebuilt yazi .deb for $(uname -m) — skipped"
+  fi
+fi
+
 # --- 3. oh-my-zsh + Powerlevel10k + plugins ----------------------------------
 step "oh-my-zsh + Powerlevel10k + plugins"
 export ZSH="${ZSH:-$HOME/.oh-my-zsh}"
